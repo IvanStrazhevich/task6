@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+        id="Your_WebApp_ID"
+        version="2.5">
+    <display-name>XML-Parsing-app</display-name>
+    <!--<servlet>
+        <servlet-name>FileUploadingServlet</servlet-name>
+        <servlet-class>by.epam.task6.web.FileUploadingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FileUploadingServlet</servlet-name>
+        <url-pattern>/UploadPage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileUploadingServlet</servlet-name>
+        <url-pattern>/WelcomePage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileUploadingServlet</servlet-name>
+        <url-pattern>/ResultPage</url-pattern>
+    </servlet-mapping>-->
+    <welcome-file-list>
+        <welcome-file>/jsp/WelcomePage.jsp</welcome-file>
+    </welcome-file-list>
+    <error-page>
+        <exception-type>javax.servlet.ServletException</exception-type>
+        <location>/jsp/ErrorPage.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.io.IOException</exception-type>
+        <location>/jsp/MissedFilePage.jsp</location>
+    </error-page>
+</web-app>
