@@ -7,7 +7,7 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         id="Your_WebApp_ID"
         version="2.5">
-    <display-name>XML-Parsing-app</display-name>
+    <display-name>XML-Parsing</display-name>
     <!--<servlet>
         <servlet-name>FileUploadingServlet</servlet-name>
         <servlet-class>by.epam.task6.web.FileUploadingServlet</servlet-class>

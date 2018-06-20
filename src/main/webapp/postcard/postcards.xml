@@ -86,5 +86,26 @@
             </cns:author>
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
-
+    <cns:postcard card-type="ordinary" sent="false" id="card8">
+        <cns:theme>Sport</cns:theme>
+        <cns:valuable-postcards-characteristics valuable="thematic">
+            <cns:country>Belarus</cns:country>
+            <cns:year>1980</cns:year>
+            <cns:author>
+                <cns:name>Jauhen</cns:name>
+                <cns:lastname>Homov</cns:lastname>
+            </cns:author>
+        </cns:valuable-postcards-characteristics>
+    </cns:postcard>
+    <cns:postcard card-type="congratulations" sent="true" id="card9">
+        <cns:theme>Sport</cns:theme>
+        <cns:valuable-postcards-characteristics valuable="historical">
+            <cns:country>USA</cns:country>
+            <cns:year>2017</cns:year>
+            <cns:author>
+                <cns:name>Mike</cns:name>
+                <cns:lastname>Cornel</cns:lastname>
+            </cns:author>
+        </cns:valuable-postcards-characteristics>
+    </cns:postcard>
 </cns:postcards>

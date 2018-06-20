@@ -59,7 +59,7 @@
 
     <complexType name="Postcards-characteristics">
         <sequence>
-            <element name="country" type="simpleType">
+            <element name="country" default="Belarus">
                 <simpleType>
                     <restriction base="string">
                         <enumeration value="Belarus"/>
