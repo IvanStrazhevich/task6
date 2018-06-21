@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 public class ProxyConnection {
     private Connection connection;
+    ProxyConnection(){}
 
     public void close() throws SQLException {
         ProxyConnectionPool.getConnectionPool().releaseConnection(this);
@@ -15,11 +16,11 @@ public class ProxyConnection {
         return connection.prepareStatement(sql);
     }
 
-    protected Connection getConnection() {
+    Connection getConnection() {
         return connection;
     }
 
-    protected void setConnection(Connection connection) {
+    void setConnection(Connection connection) {
         this.connection = connection;
     }
 }

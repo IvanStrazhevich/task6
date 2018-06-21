@@ -1,29 +1,29 @@
 package by.epam.task6.entity;
 
 public class Postcard extends Entity{
-    private int postcardId;
+    private String postcardId;
     private Theme theme;
     private CardType cardType;
     private boolean sent;
-    private String postcardCharachteristics;
+    private ValuablePostcardCharacteristics postcardCharachteristics;
 
     public Postcard() {
     }
 
-    public Postcard(int id, Theme theme, CardType cardType, boolean sent, String postcardCharachteristics) {
+    public Postcard(int id, String postcardId, Theme theme, CardType cardType, boolean sent, ValuablePostcardCharacteristics postcardCharachteristics) {
         super(id);
-        this.postcardId = id;
+        this.postcardId = postcardId;
         this.theme = theme;
         this.cardType = cardType;
         this.sent = sent;
         this.postcardCharachteristics = postcardCharachteristics;
     }
 
-    public int getPostcardId() {
+    public String getPostcardId() {
         return postcardId;
     }
 
-    public void setPostcardId(int postcardId) {
+    public void setPostcardId(String postcardId) {
         this.postcardId = postcardId;
     }
 
@@ -51,11 +51,11 @@ public class Postcard extends Entity{
         this.sent = sent;
     }
 
-    public String getPostcardCharachteristics() {
+    public PostcardCharacteristics getPostcardCharachteristics() {
         return postcardCharachteristics;
     }
 
-    public void setPostcardCharachteristics(String postcardCharachteristics) {
+    public void setPostcardCharachteristics(ValuablePostcardCharacteristics postcardCharachteristics) {
         this.postcardCharachteristics = postcardCharachteristics;
     }
 
@@ -67,8 +67,8 @@ public class Postcard extends Entity{
 
         Postcard postcard = (Postcard) o;
 
-        if (postcardId != postcard.postcardId) return false;
         if (sent != postcard.sent) return false;
+        if (postcardId != null ? !postcardId.equals(postcard.postcardId) : postcard.postcardId != null) return false;
         if (theme != postcard.theme) return false;
         if (cardType != postcard.cardType) return false;
         return postcardCharachteristics != null ? postcardCharachteristics.equals(postcard.postcardCharachteristics) : postcard.postcardCharachteristics == null;
@@ -77,7 +77,7 @@ public class Postcard extends Entity{
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + postcardId;
+        result = 31 * result + (postcardId != null ? postcardId.hashCode() : 0);
         result = 31 * result + (theme != null ? theme.hashCode() : 0);
         result = 31 * result + (cardType != null ? cardType.hashCode() : 0);
         result = 31 * result + (sent ? 1 : 0);
@@ -88,11 +88,11 @@ public class Postcard extends Entity{
     @Override
     public String toString() {
         return "Postcard{" +
-                "postcardId=" + postcardId +
+                "postcardId='" + postcardId + '\'' +
                 ", theme=" + theme +
                 ", cardType=" + cardType +
                 ", sent=" + sent +
-                ", postcardCharachteristics='" + postcardCharachteristics + '\'' +
+                ", postcardCharachteristics=" + postcardCharachteristics +
                 '}';
     }
 }

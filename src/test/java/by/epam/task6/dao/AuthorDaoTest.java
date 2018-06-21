@@ -8,8 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import static org.testng.Assert.*;
-
 public class AuthorDaoTest {
     private AuthorDao authorDao;
     private Author author;
@@ -26,6 +24,7 @@ public class AuthorDaoTest {
     @AfterClass
     public void afterClass() throws ProxyPoolException {
         ProxyConnectionPool.getConnectionPool().closeAll();
+        ProxyConnectionPool.getConnectionPool().setConnectionPoolFree(null);
 
     }
 
@@ -42,7 +41,7 @@ public class AuthorDaoTest {
 
     @Test
     public void testFindAll() throws DaoException {
-        authorDao.findAll();
+        System.out.println(authorDao.findAll());
 
     }
 

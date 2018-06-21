@@ -12,19 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AuthorDao implements AbstractDAO<Author> {
-    private static Logger logger = LogManager.getLogger();
-    private ProxyConnection proxyConnection;
     private static final String SELECT_LAST_INSERT_ID_PSTM = "select last_insert_id()";
     private static final String SELECT_ALL_PSTM = "select au_id, au_name, au_lastname from author";
     private static final String SELECT_BY_ID_PSTM = "select au_id, au_name, au_lastname from author where au_id = ?";
     private static final String INSERT_PSTM = "insert into author(au_name, au_lastname) values(?,?)";
     private static final String DELETE_PSTM = "delete from author where au_id = ?";
     private static final String UPDATE_PSTM = "update author set au_name = ?, au_lastname = ? where au_id = ?";
+    private static Logger logger = LogManager.getLogger();
+    private ProxyConnection proxyConnection;
 
     public AuthorDao(ProxyConnectionPool connectionPool) {
         proxyConnection = connectionPool.getConnection();
     }
 
+    @Override
     public int findLastInsertId() throws DaoException {
         int id = 0;
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_LAST_INSERT_ID_PSTM)) {

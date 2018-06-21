@@ -10,19 +10,20 @@ import java.util.List;
 
 
 public interface AbstractDAO<T extends Entity> {
+    int findLastInsertId() throws DaoException;
 
-    public abstract List<T> findAll() throws DaoException;
+    List<T> findAll() throws DaoException;
 
-    public abstract T findEntityById(int id) throws DaoException;
+    T findEntityById(int id) throws DaoException;
 
-    public abstract boolean delete(int id) throws DaoException;
+    boolean delete(int id) throws DaoException;
 
-    public abstract boolean delete(T entity) throws DaoException;
+    boolean delete(T entity) throws DaoException;
 
-    public abstract boolean create(T entity) throws DaoException;
+    boolean create(T entity) throws DaoException;
 
-    public abstract boolean update(T entity) throws DaoException;
+    boolean update(T entity) throws DaoException;
 
-    public void close() throws DaoException;
+    void close() throws DaoException;
 }
 

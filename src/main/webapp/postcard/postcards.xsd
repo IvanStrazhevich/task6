@@ -54,7 +54,7 @@
             </simpleType>
         </attribute>
 
-        <attribute name="id" use="required" type="ID"/>
+        <attribute name="postcardId" use="required" type="ID"/>
     </complexType>
 
     <complexType name="Postcards-characteristics">

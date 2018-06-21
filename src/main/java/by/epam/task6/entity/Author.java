@@ -10,9 +10,9 @@ public class Author extends Entity{
     }
 
 
-    public Author(int id, String authorName, String authorLastName) {
+    public Author(int id, int authorId, String authorName, String authorLastName) {
         super(id);
-        this.authorId = id;
+        this.authorId = authorId;
         this.authorName = authorName;
         this.authorLastName = authorLastName;
     }

@@ -2,7 +2,7 @@
                xmlns:cns="http://www.epam.by/postcards"
                xsi:schemaLocation="http://www.epam.by/postcards postcards.xsd">
 
-    <cns:postcard card-type="advertising" sent="true" id="card1">
+    <cns:postcard card-type="advertising" sent="true" postcardId="card1">
         <cns:theme>City Scape</cns:theme>
         <cns:valuable-postcards-characteristics valuable="historical">
             <cns:country>Belarus</cns:country>
@@ -15,7 +15,7 @@
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
 
-    <cns:postcard card-type="congratulations" sent="false" id="card2">
+    <cns:postcard card-type="congratulations" sent="false" postcardId="card2">
         <cns:theme>Nature</cns:theme>
         <cns:valuable-postcards-characteristics valuable="collection">
             <cns:country>Great Britain</cns:country>
@@ -27,7 +27,7 @@
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
 
-    <cns:postcard card-type="ordinary" sent="true" id="card3">
+    <cns:postcard card-type="ordinary" sent="true" postcardId="card3">
         <cns:theme>People</cns:theme>
         <cns:valuable-postcards-characteristics valuable="thematic">
             <cns:country>USA</cns:country>
@@ -39,7 +39,7 @@
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
 
-    <cns:postcard card-type="congratulations" sent="false" id="card4">
+    <cns:postcard card-type="congratulations" sent="false" postcardId="card4">
         <cns:theme>Religion</cns:theme>
         <cns:valuable-postcards-characteristics valuable="collection">
             <cns:country>Philippine</cns:country>
@@ -51,7 +51,7 @@
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
 
-    <cns:postcard card-type="advertising" sent="true" id="card5">
+    <cns:postcard card-type="advertising" sent="true" postcardId="card5">
         <cns:theme>Art</cns:theme>
         <cns:valuable-postcards-characteristics valuable="thematic">
             <cns:country>Japan</cns:country>
@@ -63,7 +63,7 @@
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
 
-    <cns:postcard card-type="ordinary" sent="false" id="card6">
+    <cns:postcard card-type="ordinary" sent="false" postcardId="card6">
         <cns:theme>Transport</cns:theme>
         <cns:valuable-postcards-characteristics valuable="historical">
             <cns:country>NewZealand</cns:country>
@@ -75,7 +75,7 @@
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
 
-    <cns:postcard card-type="advertising" sent="true" id="card7">
+    <cns:postcard card-type="advertising" sent="true" postcardId="card7">
         <cns:theme>Architecture</cns:theme>
         <cns:valuable-postcards-characteristics valuable="thematic">
             <cns:country>Australia</cns:country>
@@ -86,7 +86,7 @@
             </cns:author>
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
-    <cns:postcard card-type="ordinary" sent="false" id="card8">
+    <cns:postcard card-type="ordinary" sent="false" postcardId="card8">
         <cns:theme>Sport</cns:theme>
         <cns:valuable-postcards-characteristics valuable="thematic">
             <cns:country>Belarus</cns:country>
@@ -97,7 +97,7 @@
             </cns:author>
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
-    <cns:postcard card-type="congratulations" sent="true" id="card9">
+    <cns:postcard card-type="congratulations" sent="true" postcardId="card9">
         <cns:theme>Sport</cns:theme>
         <cns:valuable-postcards-characteristics valuable="historical">
             <cns:country>USA</cns:country>
@@ -105,6 +105,17 @@
             <cns:author>
                 <cns:name>Mike</cns:name>
                 <cns:lastname>Cornel</cns:lastname>
+            </cns:author>
+        </cns:valuable-postcards-characteristics>
+    </cns:postcard>
+    <cns:postcard card-type="ordinary" sent="true" postcardId="card10">
+        <cns:theme>People</cns:theme>
+        <cns:valuable-postcards-characteristics valuable="thematic">
+            <cns:country></cns:country>
+            <cns:year></cns:year>
+            <cns:author>
+                <cns:name></cns:name>
+                <cns:lastname></cns:lastname>
             </cns:author>
         </cns:valuable-postcards-characteristics>
     </cns:postcard>
