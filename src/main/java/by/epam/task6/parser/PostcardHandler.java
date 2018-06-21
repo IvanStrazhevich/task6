@@ -9,17 +9,18 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class PostcardHandler extends DefaultHandler {
     private static Logger logger = LogManager.getLogger();
-    private ArrayList<Author> authors = new ArrayList<>();
+    private LinkedList<Author> authors = new LinkedList<>();
     private ArrayList<Postcard> postcards = new ArrayList<>();
     private ArrayList<PostcardCharacteristics> charactList = new ArrayList<>();
     private ArrayList<ValuablePostcardCharacteristics> valCaractList = new ArrayList<>();
-    private ValuablePostcardCharacteristics valuablePostcardCharacteristics = new ValuablePostcardCharacteristics();
-    private Author author = new Author();
-    private Postcard postcard = new Postcard();
-    private PostcardCharacteristics postcardCharacteristics = new PostcardCharacteristics();
+    private ValuablePostcardCharacteristics valuablePostcardCharacteristics;
+    private Author author;
+    private Postcard postcard;
+    private PostcardCharacteristics postcardCharacteristics;
     private CardType cardType;
     private Valuable valuable;
 
@@ -68,6 +69,7 @@ public class PostcardHandler extends DefaultHandler {
         } else if (qName.equalsIgnoreCase("year")) {
             bYear = true;
         } else if (qName.equalsIgnoreCase("author")) {
+            author = new Author();
             bAuthor = true;
         } else if (qName.equalsIgnoreCase("name")) {
             bName = true;
@@ -88,11 +90,9 @@ public class PostcardHandler extends DefaultHandler {
             postcard.setPostcardCharachteristics(valuablePostcardCharacteristics);
             valCaractList.add(valuablePostcardCharacteristics);
         } else if (qName.equalsIgnoreCase("author")) {
-            author.setAuthorId(Integer.valueOf(postcard.getPostcardId().replace("card", "")));
-            valuablePostcardCharacteristics.setAuthorId(author.getAuthorId());
-            logger.info(author);
-            authors.add(author.getAuthorId() - 1, author);
+            authors.add(author);
             logger.info(authors);
+            valuablePostcardCharacteristics.setAuthorId(author.getAuthorId());
         }
     }
 
@@ -109,6 +109,9 @@ public class PostcardHandler extends DefaultHandler {
         } else if (bYear) {
             valuablePostcardCharacteristics.setYear(Year.parse(new String(ch, start, length)));
             bYear = false;
+        } else if (bAuthor) {
+            author.setAuthorId(Integer.valueOf(postcard.getPostcardId().replace("card", "")));
+            bAuthor = false;
         } else if (bName) {
             author.setAuthorName(new String(ch, start, length));
             bName = false;
@@ -134,11 +137,11 @@ public class PostcardHandler extends DefaultHandler {
         this.postcards = postcards;
     }
 
-    public ArrayList<Author> getAuthors() {
+    public LinkedList<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(ArrayList<Author> authors) {
+    public void setAuthors(LinkedList<Author> authors) {
         this.authors = authors;
     }
 
