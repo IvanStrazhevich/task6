@@ -1,9 +1,9 @@
 package by.epam.task6.web;
 
-import by.epam.task6.dao.AuthorDao;
-import by.epam.task6.dao.ProxyConnectionPool;
+import by.epam.task6.connection.ProxyConnectionPool;
 import by.epam.task6.entity.Author;
 import by.epam.task6.exception.DaoException;
+import by.epam.task6.exception.ProxyPoolException;
 import by.epam.task6.parser.ParserType;
 import by.epam.task6.service.TableDataResolver;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +14,8 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "FileUploadingServlet",
@@ -47,10 +48,10 @@ public class FileUploadingServlet extends HttpServlet {
             logger.info("Parsed with: "+ parser);
             request.setAttribute("parser", parser);
             TableDataResolver dataResolver = new TableDataResolver();
-            List<Author> authorList=dataResolver.findAllAuthors();
-            ArrayList<Author> list = new ArrayList<>();
+            List<Author> authorList = dataResolver.findAllAuthors();
+           /* ArrayList<Author> list = new ArrayList<>();*/
             request.setAttribute("authorsdao", authorList);
-            request.setAttribute("authors", list);
+           /* request.setAttribute("authors", list);*/
             request.getRequestDispatcher("/jsp/UploadResultPage.jsp").forward(request, response);
         }
     }

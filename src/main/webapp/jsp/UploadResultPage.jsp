@@ -15,6 +15,7 @@ ${parser}<br>
 <c:forEach items="${authors}" var="au">
     ${au.authorName}
 </c:forEach><br>
+from dao: <br>
 <c:forEach items="${authorsdao}" var="au">
     ${au.authorName}
 </c:forEach><br>

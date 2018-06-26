@@ -1,5 +1,6 @@
 package by.epam.task6.dao;
 
+import by.epam.task6.connection.ProxyConnectionPool;
 import by.epam.task6.entity.Author;
 import by.epam.task6.exception.DaoException;
 import by.epam.task6.exception.ProxyPoolException;
@@ -12,25 +13,27 @@ public class AuthorDaoTest {
     private AuthorDao authorDao;
     private Author author;
     private static Logger logger = LogManager.getLogger();
+    private ProxyConnectionPool proxyConnectionPool;
 
     @BeforeClass
     public void beforeClass() {
         author = new Author();
         author.setAuthorName("John");
         author.setAuthorLastName("Smith");
+        proxyConnectionPool = ProxyConnectionPool.getConnectionPool();
 
     }
 
     @AfterClass
     public void afterClass() throws ProxyPoolException {
-        ProxyConnectionPool.getConnectionPool().closeAll();
-        ProxyConnectionPool.getConnectionPool().setConnectionPoolFree(null);
+        proxyConnectionPool.closeAll();
+        proxyConnectionPool=null;
 
     }
 
     @BeforeMethod
     public void setUp() throws Exception {
-        authorDao = new AuthorDao(ProxyConnectionPool.getConnectionPool());
+        authorDao = new AuthorDao();
 
     }
 

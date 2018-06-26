@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-public interface AbstractDAO<T extends Entity> {
+public interface AbstractDAO<T extends Entity> extends AutoCloseable {
     int findLastInsertId() throws DaoException;
 
     List<T> findAll() throws DaoException;

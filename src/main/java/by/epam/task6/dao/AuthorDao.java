@@ -1,7 +1,10 @@
 package by.epam.task6.dao;
 
+import by.epam.task6.connection.ProxyConnection;
+import by.epam.task6.connection.ProxyConnectionPool;
 import by.epam.task6.entity.Author;
 import by.epam.task6.exception.DaoException;
+import by.epam.task6.exception.ProxyPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,8 +24,12 @@ public class AuthorDao implements AbstractDAO<Author> {
     private static Logger logger = LogManager.getLogger();
     private ProxyConnection proxyConnection;
 
-    public AuthorDao(ProxyConnectionPool connectionPool) {
-        proxyConnection = connectionPool.getConnection();
+    public AuthorDao() throws DaoException {
+        try {
+            proxyConnection = ProxyConnectionPool.getConnectionPool().getConnection();
+        } catch (ProxyPoolException e) {
+            throw new DaoException("There is no free connection", e);
+        }
     }
 
     @Override

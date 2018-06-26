@@ -1,4 +1,4 @@
-package by.epam.task6.dao;
+package by.epam.task6.connection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,4 +23,5 @@ public class ProxyConnection {
     void setConnection(Connection connection) {
         this.connection = connection;
     }
+
 }
