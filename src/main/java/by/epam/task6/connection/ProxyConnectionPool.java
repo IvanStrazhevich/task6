@@ -67,16 +67,6 @@ public class ProxyConnectionPool {
             }
         } catch (SQLException | InterruptedException e) {
             throw new ProxyPoolException("Closing proxyConnection error", e);
-        } finally {
-            DriverManager.drivers().forEach(s -> {
-                logger.info("Closing Drivers");
-                try {
-                    DriverManager.deregisterDriver(s);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            });
-
         }
     }
     private void optimizePool() throws ProxyPoolException {
@@ -120,7 +110,7 @@ public class ProxyConnectionPool {
     void releaseConnection(ProxyConnection proxyConnection) {
         connectionInUse.remove(proxyConnection);
         logger.info("Connection " + proxyConnection + " is in " + connectionInUse.contains(proxyConnection) + connectionInUse);
-        logger.info("Connection returned to poll" + connectionInUse.isEmpty());
+        logger.info("Connection returned to poll " + connectionInUse.isEmpty());
         connectionPoolFree.add(proxyConnection);
     }
 }
