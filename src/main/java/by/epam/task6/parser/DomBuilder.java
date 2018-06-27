@@ -1,6 +1,8 @@
 package by.epam.task6.parser;
 
 import by.epam.task6.entity.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,6 +17,7 @@ import java.time.Year;
 import java.util.ArrayList;
 
 public class DomBuilder extends XMLParserBuilder {
+    private static Logger logger = LogManager.getLogger();
     private ArrayList<Author> authors = new ArrayList<>();
     private ArrayList<Postcard> postcards = new ArrayList<>();
     private ArrayList<PostcardCharacteristics> charactList = new ArrayList<>();
@@ -32,7 +35,9 @@ public class DomBuilder extends XMLParserBuilder {
         }
     }
 
+    @Override
     public void buildPostcards(String fileName) {
+        logger.info("Parsing with DOM");
         Document doc = null;
         try {
             // parsing XML-документа и создание древовидной структуры
@@ -55,25 +60,25 @@ public class DomBuilder extends XMLParserBuilder {
     private Postcard buildPostcard(Element postcardElement) {
         Postcard postcard = new Postcard();
         // заполнение объекта Postcard
-        postcard.setCardType(CardType.valueOf(postcardElement.getAttribute("card-type").replace(' ','_').toUpperCase()));
+        postcard.setCardType(CardType.valueOf(postcardElement.getAttribute("card-type").replace(' ', '_').toUpperCase()));
         postcard.setSent(Boolean.parseBoolean(postcardElement.getAttribute("sent")));
         postcard.setPostcardId(postcardElement.getAttribute("postcardId"));
-        postcard.setTheme(Theme.valueOf(getElementTextContent(postcardElement,"theme").replace(' ','_').toUpperCase()));
+        postcard.setTheme(Theme.valueOf(getElementTextContent(postcardElement, "theme").replace(' ', '_').toUpperCase()));
 
         ValuablePostcardCharacteristics valPostcardCharacts = new ValuablePostcardCharacteristics();
 
         Element valPostcardCharsElement = (Element) postcardElement.getElementsByTagName("valuable-postcards-characteristics").item(0);
         valPostcardCharacts.setValuable(Valuable.valueOf(valPostcardCharsElement.getAttribute("valuable").toUpperCase()));
-        valPostcardCharacts.setCountry(Country.valueOf(getElementTextContent(valPostcardCharsElement,"country")
-                .replace(' ','_').toUpperCase()));
-        valPostcardCharacts.setYear(Year.parse(getElementTextContent(valPostcardCharsElement,"year")));
+        valPostcardCharacts.setCountry(Country.valueOf(getElementTextContent(valPostcardCharsElement, "country")
+                .replace(' ', '_').toUpperCase()));
+        valPostcardCharacts.setYear(Year.parse(getElementTextContent(valPostcardCharsElement, "year")));
 
         Author author = new Author();
 
-        Element authorElement = (Element)  postcardElement.getElementsByTagName("author").item(0);
+        Element authorElement = (Element) postcardElement.getElementsByTagName("author").item(0);
         author.setAuthorId(Integer.valueOf(postcard.getPostcardId().replace("card", "")));
-        author.setAuthorName(getElementTextContent(authorElement,"name"));
-        author.setAuthorLastName(getElementTextContent(authorElement,"lastname"));
+        author.setAuthorName(getElementTextContent(authorElement, "name"));
+        author.setAuthorLastName(getElementTextContent(authorElement, "lastname"));
         valPostcardCharacts.setAuthorId(author.getAuthorId());
         valPostcardCharacts.setPostcardsCharacteristicsId(postcard.getPostcardId());
 
@@ -91,7 +96,7 @@ public class DomBuilder extends XMLParserBuilder {
         return text;
     }
 
-    public ArrayList<Author> getAuthors() {
+    public ArrayList<Author> findAuthors() {
         return authors;
     }
 
@@ -99,7 +104,7 @@ public class DomBuilder extends XMLParserBuilder {
         this.authors = authors;
     }
 
-    public ArrayList<Postcard> getPostcards() {
+    public ArrayList<Postcard> findPostcards() {
         return postcards;
     }
 
@@ -107,7 +112,7 @@ public class DomBuilder extends XMLParserBuilder {
         this.postcards = postcards;
     }
 
-    public ArrayList<PostcardCharacteristics> getCharactList() {
+    public ArrayList<PostcardCharacteristics> findCharactList() {
         return charactList;
     }
 

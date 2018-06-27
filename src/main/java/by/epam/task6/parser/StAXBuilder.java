@@ -20,25 +20,22 @@ public class StAXBuilder extends XMLParserBuilder {
     private ArrayList<Author> authors = new ArrayList<>();
     private ArrayList<Postcard> postcards = new ArrayList<>();
     private ArrayList<PostcardCharacteristics> charactList = new ArrayList<>();
-    private ArrayList<ValuablePostcardCharacteristics> valCaractList = new ArrayList<>();
-    private ValuablePostcardCharacteristics valuablePostcardCharacteristics;
-    private Author author;
+    private ArrayList<ValuablePostcardCharacteristics> valCharactList = new ArrayList<>();
     private Postcard postcard;
-    private PostcardCharacteristics postcardCharacteristics;
     private XMLInputFactory inputFactory;
 
     public StAXBuilder() {
         inputFactory = XMLInputFactory.newInstance();
     }
-
+@Override
     public void buildPostcards(String fileName) {
+        logger.info("Parsing with STAX");
         FileInputStream inputStream = null;
         XMLStreamReader reader = null;
         String name;
         try {
             inputStream = new FileInputStream(new File(fileName));
             reader = inputFactory.createXMLStreamReader(inputStream);
-            // StAX parsing
             while (reader.hasNext()) {
                 int type = reader.next();
                 if (type == XMLStreamConstants.START_ELEMENT) {
@@ -49,17 +46,16 @@ public class StAXBuilder extends XMLParserBuilder {
                 }
             }
         } catch (XMLStreamException ex) {
-            System.err.println("StAX parsing error! " + ex.getMessage());
+            logger.error("StAX parsing error! " + ex.getMessage());
         } catch (FileNotFoundException ex) {
-            System.err.println("File " + fileName + " not found! " + ex);
+            logger.error("File " + fileName + " not found! " + ex);
         } finally {
             try {
-
                 if (inputStream != null) {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                System.err.println("Impossible close file " + fileName + " : " + e);
+                logger.error("Impossible close file " + fileName + " : " + e);
             }
         }
     }
@@ -67,8 +63,10 @@ public class StAXBuilder extends XMLParserBuilder {
     private Postcard buildPostcard(XMLStreamReader reader) throws XMLStreamException {
         postcard = new Postcard();
         postcard.setPostcardId(reader.getAttributeValue(null, PostcardEnum.POSTCARD_ID.getValue()));
-        postcard.setSent(Boolean.parseBoolean(reader.getAttributeValue(null, PostcardEnum.SENT.getValue()).toUpperCase()));
-        postcard.setCardType(CardType.valueOf(reader.getAttributeValue(null, PostcardEnum.CARD_TYPE.getValue()).toUpperCase()));
+        postcard.setSent(Boolean.parseBoolean(reader
+                .getAttributeValue(null, PostcardEnum.SENT.getValue()).toUpperCase()));
+        postcard.setCardType(CardType.valueOf(reader
+                .getAttributeValue(null, PostcardEnum.CARD_TYPE.getValue()).toUpperCase()));
 
         String name;
         while (reader.hasNext()) {
@@ -76,9 +74,13 @@ public class StAXBuilder extends XMLParserBuilder {
             switch (type) {
                 case XMLStreamConstants.START_ELEMENT:
                     name = reader.getLocalName();
-                    switch (PostcardEnum.valueOf(name.toUpperCase().replace("-","_"))) {
+                    switch (PostcardEnum.valueOf(name.toUpperCase().replace("-", "_"))) {
                         case THEME:
-                            postcard.setTheme(Theme.valueOf(getXMLText(reader).replace(" ", "_").toUpperCase()));
+                            postcard.setTheme(Theme
+                                    .valueOf(getXMLText(reader).replace(" ", "_").toUpperCase()));
+                            break;
+                        case POSTCARDS_CHARACTERISTICS:
+                            postcard.setPostcardCharachteristics((ValuablePostcardCharacteristics) getXMLPostcardCharacts(reader));
                             break;
                         case VALUABLE_POSTCARDS_CHARACTERISTICS:
                             postcard.setPostcardCharachteristics(getXMLValPostcardCharacts(reader));
@@ -96,8 +98,37 @@ public class StAXBuilder extends XMLParserBuilder {
         throw new XMLStreamException("Unknown element in tag postcard");
     }
 
-    private ValuablePostcardCharacteristics getXMLValPostcardCharacts(XMLStreamReader reader) throws XMLStreamException {
-        valuablePostcardCharacteristics = new ValuablePostcardCharacteristics();
+    private PostcardCharacteristics getXMLPostcardCharacts(XMLStreamReader reader) throws XMLStreamException {
+        PostcardCharacteristics postcardCharacteristics = new PostcardCharacteristics();
+        postcardCharacteristics.setPostcardCharacteristicsId(postcard.getPostcardId());
+        int type;
+        String name;
+        while (reader.hasNext()) {
+            type = reader.next();
+            switch (type) {
+                case XMLStreamConstants.START_ELEMENT:
+                    name = reader.getLocalName();
+                    if (name.equalsIgnoreCase(PostcardEnum.COUNTRY.getValue())) {
+                        postcardCharacteristics.setCountry(Country
+                                .valueOf(getXMLText(reader).replace(" ", "_").toUpperCase()));
+                    }
+                    break;
+                case XMLStreamConstants.END_ELEMENT:
+                    name = reader.getLocalName();
+                    if (PostcardEnum.valueOf(name.replace("-", "_").toUpperCase())
+                            == PostcardEnum.POSTCARDS_CHARACTERISTICS) {
+                        charactList.add(postcardCharacteristics);
+                        return postcardCharacteristics;
+                    }
+                    break;
+            }
+        }
+        throw new XMLStreamException("Unknown element in tag valuable-postcards-characteristics");
+    }
+
+    private ValuablePostcardCharacteristics getXMLValPostcardCharacts(XMLStreamReader reader) throws
+            XMLStreamException {
+        ValuablePostcardCharacteristics valuablePostcardCharacteristics = new ValuablePostcardCharacteristics();
         valuablePostcardCharacteristics.setPostcardsCharacteristicsId(postcard.getPostcardId());
         valuablePostcardCharacteristics
                 .setValuable(Valuable.valueOf(reader.getAttributeValue(null,
@@ -111,7 +142,8 @@ public class StAXBuilder extends XMLParserBuilder {
                     name = reader.getLocalName();
                     switch (PostcardEnum.valueOf(name.toUpperCase())) {
                         case COUNTRY:
-                            valuablePostcardCharacteristics.setCountry(Country.valueOf(getXMLText(reader).replace(" ", "_").toUpperCase()));
+                            valuablePostcardCharacteristics.setCountry(Country
+                                    .valueOf(getXMLText(reader).replace(" ", "_").toUpperCase()));
                             break;
                         case YEAR:
                             valuablePostcardCharacteristics.setYear(Year.parse(getXMLText(reader)));
@@ -123,8 +155,9 @@ public class StAXBuilder extends XMLParserBuilder {
                     break;
                 case XMLStreamConstants.END_ELEMENT:
                     name = reader.getLocalName();
-                    if (PostcardEnum.valueOf(name.replace("-","_").toUpperCase()) == PostcardEnum.VALUABLE_POSTCARDS_CHARACTERISTICS) {
-                        valCaractList.add(valuablePostcardCharacteristics);
+                    if (PostcardEnum.valueOf(name.replace("-", "_").toUpperCase())
+                            == PostcardEnum.VALUABLE_POSTCARDS_CHARACTERISTICS) {
+                        valCharactList.add(valuablePostcardCharacteristics);
                         return valuablePostcardCharacteristics;
                     }
                     break;
@@ -134,7 +167,7 @@ public class StAXBuilder extends XMLParserBuilder {
     }
 
     private Author getXMLAuthor(XMLStreamReader reader) throws XMLStreamException {
-        author = new Author();
+        Author author = new Author();
         author.setAuthorId(Integer.valueOf(postcard.getPostcardId().replace("card", "")));
         int type;
         String name;
@@ -173,7 +206,7 @@ public class StAXBuilder extends XMLParserBuilder {
         return text;
     }
 
-    public ArrayList<Author> getAuthors() {
+    public ArrayList<Author> findAuthors() {
         return authors;
     }
 
@@ -181,7 +214,7 @@ public class StAXBuilder extends XMLParserBuilder {
         this.authors = authors;
     }
 
-    public ArrayList<Postcard> getPostcards() {
+    public ArrayList<Postcard> findPostcards() {
         return postcards;
     }
 
@@ -189,7 +222,7 @@ public class StAXBuilder extends XMLParserBuilder {
         this.postcards = postcards;
     }
 
-    public ArrayList<PostcardCharacteristics> getCharactList() {
+    public ArrayList<PostcardCharacteristics> findCharactList() {
         return charactList;
     }
 
@@ -197,12 +230,12 @@ public class StAXBuilder extends XMLParserBuilder {
         this.charactList = charactList;
     }
 
-    public ArrayList<ValuablePostcardCharacteristics> getValCaractList() {
-        return valCaractList;
+    public ArrayList<ValuablePostcardCharacteristics> findValCharactList() {
+        return valCharactList;
     }
 
-    public void setValCaractList(ArrayList<ValuablePostcardCharacteristics> valCaractList) {
-        this.valCaractList = valCaractList;
+    public void setValCharactList(ArrayList<ValuablePostcardCharacteristics> valCharactList) {
+        this.valCharactList = valCharactList;
     }
 }
 

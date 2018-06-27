@@ -6,8 +6,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
-
 public class StAXBuilderTest {
     private static Logger logger = LogManager.getLogger();
     private StAXBuilder staxBuilder;
@@ -25,7 +23,7 @@ public class StAXBuilderTest {
     public void testBuildPostcards() throws Exception {
         try {
             staxBuilder.buildPostcards("postcards/postcards.xml");
-            logger.info("result " + staxBuilder.getPostcards());
+            logger.info("result " + staxBuilder.findPostcards());
         } catch (Exception e) {
             e.printStackTrace();
         }

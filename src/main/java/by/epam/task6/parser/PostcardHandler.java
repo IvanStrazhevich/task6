@@ -1,7 +1,6 @@
 package by.epam.task6.parser;
 
 import by.epam.task6.entity.*;
-import by.epam.task6.exception.ParserException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -22,30 +21,24 @@ public class PostcardHandler extends DefaultHandler {
     private Author author;
     private Postcard postcard;
     private PostcardCharacteristics postcardCharacteristics;
-    private CardType cardType;
-    private Valuable valuable;
 
 
-    boolean bTheme = false;
-    boolean bPostcardsCharacteristics = false;
-    boolean bCountry = false;
-    boolean bValuablePostcardsCharacteristics = false;
-    boolean bYear = false;
-    boolean bAuthor = false;
-    boolean bName = false;
-    boolean bLastName = false;
+    private boolean bTheme = false;
+    private boolean bCountry = false;
+    private boolean bYear = false;
+    private boolean bAuthor = false;
+    private boolean bName = false;
+    private boolean bLastName = false;
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes)
             throws SAXException {
         switch (PostcardEnum.valueOf(qName.toUpperCase().toUpperCase()
                 .replace("-", "_").replace(" ", "_"))) {
-            case POSTCARDS:
-                break;
             case POSTCARD:
                 postcard = new Postcard();
                 String cardTypeValue = attributes.getValue(PostcardEnum.CARD_TYPE.getValue());
-                cardType = CardType.valueOf(cardTypeValue.toUpperCase());
+                CardType cardType = CardType.valueOf(cardTypeValue.toUpperCase());
                 postcard.setCardType(cardType);
                 postcard.setSent(Boolean.parseBoolean(attributes.getValue(PostcardEnum.SENT.getValue())));
                 postcard.setPostcardId(attributes.getValue(PostcardEnum.POSTCARD_ID.getValue()));
@@ -55,14 +48,12 @@ public class PostcardHandler extends DefaultHandler {
                 break;
             case POSTCARDS_CHARACTERISTICS:
                 postcardCharacteristics = new PostcardCharacteristics();
-                bPostcardsCharacteristics = true;
                 break;
             case VALUABLE_POSTCARDS_CHARACTERISTICS:
                 valuablePostcardCharacteristics = new ValuablePostcardCharacteristics();
                 String valuableValue = attributes.getValue(PostcardEnum.VALUABLE.getValue());
-                valuable = Valuable.valueOf(valuableValue.toUpperCase());
+                Valuable valuable = Valuable.valueOf(valuableValue.toUpperCase());
                 valuablePostcardCharacteristics.setValuable(valuable);
-                bValuablePostcardsCharacteristics = true;
                 break;
             case COUNTRY:
                 bCountry = true;
@@ -110,18 +101,6 @@ public class PostcardHandler extends DefaultHandler {
             default:
                 break;
         }
-
-
-       /* if (qName.equalsIgnoreCase(PostcardEnum.POSTCARD.getValue())) {
-            postcards.add(postcard);
-        } else if (qName.equalsIgnoreCase(PostcardEnum.VALUABLE_POSTCARDS_CHARACTERISTICS.getValue())) {
-            valuablePostcardCharacteristics.setPostcardsCharacteristicsId(postcard.getPostcardId());
-            postcard.setPostcardCharachteristics(valuablePostcardCharacteristics);
-            valCaractList.add(valuablePostcardCharacteristics);
-        } else if (qName.equalsIgnoreCase(PostcardEnum.AUTHOR.getValue())) {
-            authors.add(author);
-            valuablePostcardCharacteristics.setAuthorId(author.getAuthorId());
-        }*/
     }
 
 
@@ -151,10 +130,6 @@ public class PostcardHandler extends DefaultHandler {
 
     @Override
     public void endDocument() throws SAXException {
-        logger.info(authors);
-        logger.info(valCaractList);
-        logger.info(charactList);
-        logger.info(postcards);
         super.endDocument();
     }
 
