@@ -53,6 +53,7 @@ public class ValuablePostcardCharacteristics extends PostcardCharacteristics {
         this.authorId = authorId;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,10 +82,11 @@ public class ValuablePostcardCharacteristics extends PostcardCharacteristics {
     @Override
     public String toString() {
         return "ValuablePostcardCharacteristics{" +
-                "postcardsCharacteristicsId='" + postcardsCharacteristicsId + '\'' +
-                ", year=" + year +
-                ", valuable=" + valuable +
-                ", authorId=" + authorId +
-                '}';
+                        " postcardsCharacteristicsId='" + postcardsCharacteristicsId + '\'' +
+                        " country=" + super.getCountry().toString() +
+                        ", year=" + year +
+                        ", valuable=" + valuable +
+                        ", authorId=" + authorId +
+                        '}';
     }
 }

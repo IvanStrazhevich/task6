@@ -3,9 +3,10 @@ package by.epam.task6.entity;
 public enum PostcardEnum {
 
     POSTCARDS("postcards"),
-    POSTCARD("Postcards"),
+    POSTCARD("Postcard"),
     CARD_TYPE("card-type"), SENT("sent"),POSTCARD_ID("postcardId"),
     THEME("theme"),
+    POSTCARDS_CHARACTERISTICS("postcards-characteristics"),
     VALUABLE_POSTCARDS_CHARACTERISTICS("valuable-postcards-characteristics"),
     VALUABLE("valuable"),
     COUNTRY("country"), YEAR("year"), AUTHOR("author"),
@@ -13,7 +14,7 @@ public enum PostcardEnum {
     LASTNAME("lastname");
     private String value;
 
-    private PostcardEnum(String value) {
+    PostcardEnum(String value) {
         this.value = value;
     }
 
