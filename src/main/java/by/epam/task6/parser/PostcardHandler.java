@@ -13,7 +13,7 @@ import java.util.LinkedList;
 
 public class PostcardHandler extends DefaultHandler {
     private static Logger logger = LogManager.getLogger();
-    private LinkedList<Author> authors = new LinkedList<>();
+    private ArrayList<Author> authors = new ArrayList<>();
     private ArrayList<Postcard> postcards = new ArrayList<>();
     private ArrayList<PostcardCharacteristics> charactList = new ArrayList<>();
     private ArrayList<ValuablePostcardCharacteristics> valCaractList = new ArrayList<>();
@@ -137,11 +137,11 @@ public class PostcardHandler extends DefaultHandler {
         this.postcards = postcards;
     }
 
-    public LinkedList<Author> getAuthors() {
+    public ArrayList<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(LinkedList<Author> authors) {
+    public void setAuthors(ArrayList<Author> authors) {
         this.authors = authors;
     }
 

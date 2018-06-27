@@ -10,7 +10,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
 
-public class SaxBuilder {
+public class SaxBuilder extends XMLParserBuilder{
     private static Logger logger = LogManager.getLogger();
     private SAXParser saxParser;
     private PostcardHandler postcardHandler;
