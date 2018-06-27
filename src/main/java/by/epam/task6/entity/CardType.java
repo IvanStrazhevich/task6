@@ -8,4 +8,9 @@ public enum CardType {
     CardType(String cardType) {
         this.cardType = cardType;
     }
+
+    @Override
+    public String toString() {
+        return cardType;
+    }
 }

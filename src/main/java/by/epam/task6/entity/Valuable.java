@@ -7,4 +7,9 @@ public enum Valuable {
     Valuable(String valueType) {
         this.valueType = valueType;
     }
+
+    @Override
+    public String toString() {
+        return  valueType;
+    }
 }

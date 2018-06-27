@@ -10,4 +10,9 @@ public enum Theme {
     Theme(String theme) {
         this.theme = theme;
     }
+
+    @Override
+    public String toString() {
+        return theme;
+    }
 }

@@ -8,25 +8,24 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public class SaxBuilderTest {
+public class StAXBuilderTest {
     private static Logger logger = LogManager.getLogger();
-    private SaxBuilder saxBuilder;
-
+    private StAXBuilder staxBuilder;
     @BeforeMethod
     public void setUp() throws Exception {
-        saxBuilder = new SaxBuilder();
+        staxBuilder = new StAXBuilder();
     }
 
     @AfterMethod
     public void tearDown() throws Exception {
-        saxBuilder = null;
+        staxBuilder = null;
     }
 
     @Test
     public void testBuildPostcards() throws Exception {
         try {
-            saxBuilder.buildPostcards("postcards/postcards.xml");
-            logger.info("result " + saxBuilder.getPostcardHandler().getPostcards());
+            staxBuilder.buildPostcards("postcards/postcards.xml");
+            logger.info("result " + staxBuilder.getPostcards());
         } catch (Exception e) {
             e.printStackTrace();
         }
