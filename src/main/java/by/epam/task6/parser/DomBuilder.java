@@ -80,6 +80,7 @@ public class DomBuilder extends XMLParserBuilder {
         author.setAuthorName(getElementTextContent(authorElement, "name"));
         author.setAuthorLastName(getElementTextContent(authorElement, "lastname"));
         valPostcardCharacts.setAuthorId(author.getAuthorId());
+        valPostcardCharacts.setAuthor(author);
         valPostcardCharacts.setPostcardsCharacteristicsId(postcard.getPostcardId());
 
         postcard.setPostcardCharachteristics(valPostcardCharacts);

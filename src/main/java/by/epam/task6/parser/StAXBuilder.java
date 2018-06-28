@@ -149,7 +149,9 @@ public class StAXBuilder extends XMLParserBuilder {
                             valuablePostcardCharacteristics.setYear(Year.parse(getXMLText(reader)));
                             break;
                         case AUTHOR:
-                            valuablePostcardCharacteristics.setAuthorId(getXMLAuthor(reader).getAuthorId());
+                            Author author = getXMLAuthor(reader);
+                            valuablePostcardCharacteristics.setAuthorId(author.getAuthorId());
+                            valuablePostcardCharacteristics.setAuthor(author);
                             break;
                     }
                     break;

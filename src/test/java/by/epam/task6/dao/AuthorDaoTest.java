@@ -1,6 +1,7 @@
 package by.epam.task6.dao;
 
 import by.epam.task6.connection.ProxyConnectionPool;
+import by.epam.task6.dao.impl.AuthorDao;
 import by.epam.task6.entity.Author;
 import by.epam.task6.exception.DaoException;
 import by.epam.task6.exception.ProxyPoolException;

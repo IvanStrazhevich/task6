@@ -22,8 +22,8 @@ public class ProxyConnectionPool {
     private static final int NORMALIZATION_LIMIT_FOR_CONNECTIONS = 20;
     private static Logger logger = LogManager.getLogger();
     private static ProxyConnectionPool connectionPool;
-    private LinkedBlockingQueue<ProxyConnection> connectionPoolFree = new LinkedBlockingQueue<>();
-    private ArrayList<ProxyConnection> connectionInUse = new ArrayList<>();
+    private LinkedBlockingDeque<ProxyConnection> connectionPoolFree = new LinkedBlockingDeque<>();
+    private LinkedBlockingDeque<ProxyConnection> connectionInUse = new LinkedBlockingDeque<>();
     private Properties properties = new Properties();
     private static ReentrantLock lock = new ReentrantLock();
 
@@ -60,9 +60,18 @@ public class ProxyConnectionPool {
 
     public void closeAll() throws ProxyPoolException {
         try {
+            int usedsize=connectionInUse.size();
+            for (int i=0;i<usedsize; i++ ){
+                logger.info(connectionPoolFree.size() + " i: " + i + " opened");
+                connectionInUse.take().getConnection().close();
+            }
+        } catch (SQLException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
             int poolsize = connectionPoolFree.size();
             for (int i = 0; i < poolsize; i++) {
-                logger.info(connectionPoolFree.size() + "i: " + i);
+                logger.info(connectionPoolFree.size() + " i: " + i + " in pool");
                 connectionPoolFree.take().getConnection().close();
             }
         } catch (SQLException | InterruptedException e) {
@@ -107,10 +116,12 @@ public class ProxyConnectionPool {
         return proxyConnection;
     }
 
-    void releaseConnection(ProxyConnection proxyConnection) {
-        connectionInUse.remove(proxyConnection);
+    void releaseConnection(ProxyConnection proxyConnection){
+        logger.info("returning connection to pool");
         logger.info("Connection " + proxyConnection + " is in " + connectionInUse.contains(proxyConnection) + connectionInUse);
-        logger.info("Connection returned to poll " + connectionInUse.isEmpty());
+        connectionInUse.remove(proxyConnection);
         connectionPoolFree.add(proxyConnection);
+        logger.info("Connection returned to free poll " + connectionPoolFree);
+        logger.info("Connection deleted from in use " + connectionInUse);
     }
 }

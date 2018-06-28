@@ -2,9 +2,12 @@ package by.epam.task6.web;
 
 import by.epam.task6.connection.ProxyConnectionPool;
 import by.epam.task6.entity.Author;
+import by.epam.task6.entity.Postcard;
 import by.epam.task6.exception.DaoException;
 import by.epam.task6.exception.ProxyPoolException;
 import by.epam.task6.parser.ParserType;
+import by.epam.task6.parser.XMLParserBuilder;
+import by.epam.task6.parser.XMLParserFactory;
 import by.epam.task6.service.TableDataResolver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +19,7 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "FileUploadingServlet",
@@ -45,13 +49,21 @@ public class FileUploadingServlet extends HttpServlet {
         }
         if (request.getRequestDispatcher("/jsp/UploadResultPage.jsp") != null) {
             String parser = request.getParameter("parser");
+
+            XMLParserFactory xmlParserFactory = new XMLParserFactory();
+            XMLParserBuilder xmlParserBuilder = xmlParserFactory.createPostcardBuilder(parser);
+            xmlParserBuilder.buildPostcards(applicationPath+File.separator+UPLOAD_DIR+File.separator+"postcards.xml");
+            ArrayList<Postcard> postcards = xmlParserBuilder.findPostcards();
+            ArrayList<Author> authors = xmlParserBuilder.findAuthors();
+            logger.info(postcards);
             logger.info("Parsed with: "+ parser);
             request.setAttribute("parser", parser);
-            TableDataResolver dataResolver = new TableDataResolver();
-            List<Author> authorList = dataResolver.findAllAuthors();
+            request.setAttribute("authors", authors);
+            //TableDataResolver dataResolver = new TableDataResolver();
+            //List<Author> authorList = dataResolver.findAllAuthors();
            /* ArrayList<Author> list = new ArrayList<>();*/
-            request.setAttribute("authorsdao", authorList);
-           /* request.setAttribute("authors", list);*/
+            //request.setAttribute("authorsdao", authorList);
+            request.setAttribute("postcards", postcards);
             request.getRequestDispatcher("/jsp/UploadResultPage.jsp").forward(request, response);
         }
     }

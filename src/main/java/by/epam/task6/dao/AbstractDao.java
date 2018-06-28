@@ -1,15 +1,11 @@
 package by.epam.task6.dao;
 
-import by.epam.task6.entity.Entity;
 import by.epam.task6.exception.DaoException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.List;
 
 
-public interface AbstractDAO<T extends Entity> extends AutoCloseable {
+public interface AbstractDao<T> extends AutoCloseable {
     int findLastInsertId() throws DaoException;
 
     List<T> findAll() throws DaoException;

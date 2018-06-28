@@ -6,6 +6,7 @@ public class ValuablePostcardCharacteristics extends PostcardCharacteristics {
     private String postcardsCharacteristicsId;
     private Year year;
     private Valuable valuable;
+    private Author author;
     private int authorId;
 
     public ValuablePostcardCharacteristics() {
@@ -13,11 +14,12 @@ public class ValuablePostcardCharacteristics extends PostcardCharacteristics {
 
     public ValuablePostcardCharacteristics(int id, String postcardCharacteristicsId, Country country,
                                            String postcardsCharacteristicsId, Year year, Valuable valuable,
-                                           int authorId) {
+                                           Author author, int authorId) {
         super(id, postcardCharacteristicsId, country);
         this.postcardsCharacteristicsId = postcardsCharacteristicsId;
         this.year = year;
         this.valuable = valuable;
+        this.author = author;
         this.authorId = authorId;
     }
 
@@ -53,20 +55,28 @@ public class ValuablePostcardCharacteristics extends PostcardCharacteristics {
         this.authorId = authorId;
     }
 
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         ValuablePostcardCharacteristics that = (ValuablePostcardCharacteristics) o;
 
         if (authorId != that.authorId) return false;
-        if (postcardsCharacteristicsId != null ? !postcardsCharacteristicsId.equals(that.postcardsCharacteristicsId)
-                : that.postcardsCharacteristicsId != null)
+        if (postcardsCharacteristicsId != null ? !postcardsCharacteristicsId.equals(that.postcardsCharacteristicsId) : that.postcardsCharacteristicsId != null)
             return false;
         if (year != null ? !year.equals(that.year) : that.year != null) return false;
-        return valuable == that.valuable;
+        if (valuable != that.valuable) return false;
+        return author != null ? author.equals(that.author) : that.author == null;
     }
 
     @Override
@@ -75,6 +85,7 @@ public class ValuablePostcardCharacteristics extends PostcardCharacteristics {
         result = 31 * result + (postcardsCharacteristicsId != null ? postcardsCharacteristicsId.hashCode() : 0);
         result = 31 * result + (year != null ? year.hashCode() : 0);
         result = 31 * result + (valuable != null ? valuable.hashCode() : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
         result = 31 * result + authorId;
         return result;
     }
@@ -82,11 +93,10 @@ public class ValuablePostcardCharacteristics extends PostcardCharacteristics {
     @Override
     public String toString() {
         return "ValuablePostcardCharacteristics{" +
-                        " postcardsCharacteristicsId='" + postcardsCharacteristicsId + '\'' +
-                        " country=" + super.getCountry().toString() +
-                        ", year=" + year +
-                        ", valuable=" + valuable +
-                        ", authorId=" + authorId +
-                        '}';
+                "postcardsCharacteristicsId='" + postcardsCharacteristicsId + '\'' +
+                ", year=" + year +
+                ", valuable=" + valuable +
+                ", author=" + author +
+                '}';
     }
 }

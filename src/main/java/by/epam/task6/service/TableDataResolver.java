@@ -1,10 +1,8 @@
 package by.epam.task6.service;
 
-import by.epam.task6.dao.AuthorDao;
-import by.epam.task6.connection.ProxyConnectionPool;
+import by.epam.task6.dao.impl.AuthorDao;
 import by.epam.task6.entity.Author;
 import by.epam.task6.exception.DaoException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

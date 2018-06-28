@@ -97,6 +97,7 @@ public class PostcardHandler extends DefaultHandler {
             case AUTHOR:
                 authors.add(author);
                 valuablePostcardCharacteristics.setAuthorId(author.getAuthorId());
+                valuablePostcardCharacteristics.setAuthor(author);
                 break;
             default:
                 break;
