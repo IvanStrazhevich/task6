@@ -6,7 +6,7 @@ import java.sql.Blob;
 public class User extends Entity{
     private int userId;
     private String login;
-    private Long password;
+    private String password;
     private Blob photo;
 
     public int getUserId() {
@@ -25,11 +25,11 @@ public class User extends Entity{
         this.login = login;
     }
 
-    public Long getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(Long password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

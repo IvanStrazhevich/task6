@@ -6,7 +6,7 @@
 <fmt:setBundle basename="message" var="rb"/>
 <html>
 <head>
-    <title>Error Page</title>
+    <title><fmt:message key="label.button.ErrorPage" bundle="${rb}"/> <hr></title>
 </head>
 <style type="text/css">
     body {
@@ -15,6 +15,7 @@
         padding: 0;
         overflow: hidden;
         background-color: #38b3cd;
+        color: #616161;
     }
 </style>
 <body>

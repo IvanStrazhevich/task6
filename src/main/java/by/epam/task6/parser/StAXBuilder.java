@@ -40,7 +40,7 @@ public class StAXBuilder extends XMLParserBuilder {
                 int type = reader.next();
                 if (type == XMLStreamConstants.START_ELEMENT) {
                     name = reader.getLocalName();
-                    if (PostcardEnum.valueOf(name.toUpperCase()) == PostcardEnum.POSTCARD) {
+                    if (PostcardEnum.valueOf(name.toUpperCase().replace("-","_")).equals(PostcardEnum.POSTCARD)){
                         postcards.add(buildPostcard(reader));
                     }
                 }
@@ -123,7 +123,7 @@ public class StAXBuilder extends XMLParserBuilder {
                     break;
             }
         }
-        throw new XMLStreamException("Unknown element in tag valuable-postcards-characteristics");
+        throw new XMLStreamException("Unknown element in tag postcards-characteristics");
     }
 
     private ValuablePostcardCharacteristics getXMLValPostcardCharacts(XMLStreamReader reader) throws

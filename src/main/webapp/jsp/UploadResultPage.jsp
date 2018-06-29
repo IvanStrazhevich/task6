@@ -31,7 +31,7 @@
         padding: 0;
         overflow: hidden;
         background-color: #38b3cd;
-
+        color: #616161;
     }
 </style>
 <body>

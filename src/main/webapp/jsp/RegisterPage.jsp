@@ -6,42 +6,36 @@
 <fmt:setBundle basename="message" var="rb"/>
 <html>
 <head>
-    <title><fmt:message key="label.button.ErrorPage" bundle="${rb}"/></title>
+    <title><fmt:message key="label.button.RegisterPage" bundle="${rb}"/>
+        <hr>
+    </title>
 </head>
 <style type="text/css">
-    TABLE {
-        border-collapse: collapse;
-    }
-
-    TD, TH {
-        padding: 3px;
-        border: 1px solid rgba(30, 66, 84, 0.97);
-    }
-
-    TH {
-        background: #38b3cd; /* Цвет фона */
-    }
-
     body {
-
         list-style-type: none;
         margin: 0;
         padding: 0;
         overflow: hidden;
         background-color: #38b3cd;
         color: #616161;
-
     }
 </style>
 <body>
-
-<fmt:message key="message.forgotfile" bundle="${rb}"/><hr>
-<form action="UploadPage"
-      method="post">
-    <input type="submit" style="color: #616161" value="<fmt:message key="label.button.UploadPage" bundle="${rb}"/>">
-    <input type="hidden" name="action" value="UploadPage">
+<hr>
+${needLogin}
+<form action="RegisterUser" method=post>
+    <p><strong><fmt:message key="message.enterLogin" bundle="${rb}"/> </strong>
+        <input type="text" name="login" size="15">
+    <p>
+    <p><strong><fmt:message key="message.enterPassword" bundle="${rb}"/> </strong>
+        <input type="password" name="password" size="15">
+    <p>
+    <p>
+        <input type="hidden" size="15" name="action" value="RegisterUser">
+        <input type="submit" value="<fmt:message key="label.button.Submit" bundle="${rb}"/>">
+        <input type="reset" value="<fmt:message key="label.button.Reset" bundle="${rb}"/>">
 </form>
-<fmt:message key="message.youcanswitch" bundle="${rb}"/> <hr>
+<hr>
 <form action="WelcomePage"
       method="post">
     <input type="hidden" name="action" value="WelcomePage">

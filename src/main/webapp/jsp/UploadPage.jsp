@@ -30,17 +30,20 @@
         padding: 0;
         overflow: hidden;
         background-color: #38b3cd;
-
+        color: #616161;
     }
 </style>
 <body>
 <form action="UploadResultPage"
       enctype="multipart/form-data"
-      method="post">
+      method="post"
+      style="color: #616161; background: #38b3cd">
 
     <fmt:message key="message.choosefile" bundle="${rb}"/>
-    <input type="file" style="color: #616161" name="content" value="<fmt:message key="label.button.choosefile" bundle="${rb}"/>">
+    <input type="file" style="color: #616161" name="content"
+           value="<fmt:message key="label.button.choosefile" bundle="${rb}"/>">
     <input type="hidden" name="action" value="UploadResultPage">
+    <fmt:message key="message.chooseParser" bundle="${rb}"/>
     <select name="parser" style="background: #38b3cd; color: #616161">
         <option value="${dom}">${dom}</option>
         <option value="${sax}">${sax}</option>

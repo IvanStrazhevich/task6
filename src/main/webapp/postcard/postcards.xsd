@@ -6,7 +6,7 @@
         elementFormDefault="qualified">
     <element name="postcard" type="cns:Postcard"/>
     <element name="theme" type="simpleType"/>
-    <element name="postcards">
+    <element name="old-cards">
         <complexType>
             <sequence>
                 <element name="postcard"

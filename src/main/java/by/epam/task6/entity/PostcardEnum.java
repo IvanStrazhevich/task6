@@ -2,8 +2,8 @@ package by.epam.task6.entity;
 
 public enum PostcardEnum {
 
-    POSTCARDS("postcards"),
-    POSTCARD("Postcard"),
+    OLD_CARDS("old-cards"),
+    POSTCARD("postcard"),
     CARD_TYPE("card-type"), SENT("sent"),POSTCARD_ID("postcardId"),
     THEME("theme"),
     POSTCARDS_CHARACTERISTICS("postcards-characteristics"),

@@ -47,7 +47,7 @@ public class UserDao implements AbstractDao<User> {
         return id;
 }
     @Override
-    public List<User> findAll() throws DaoException {
+    public ArrayList<User> findAll() throws DaoException {
         ArrayList<User> userList = new ArrayList<>();
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(SELECT_ALL_PSTM)) {
             preparedStatement.execute();
@@ -56,7 +56,7 @@ public class UserDao implements AbstractDao<User> {
                 User user = new User();
                 user.setUserId(resultSet.getInt(1));
                 user.setLogin(resultSet.getString(2));
-                user.setPassword(resultSet.getLong(3));
+                user.setPassword(resultSet.getString(3));
                 user.setPhoto(resultSet.getBlob(4));
                 userList.add(user);
             }
@@ -77,7 +77,7 @@ public class UserDao implements AbstractDao<User> {
             resultSet.next();
             user.setUserId(resultSet.getInt(1));
             user.setLogin(resultSet.getString(2));
-            user.setPassword(resultSet.getLong(3));
+            user.setPassword(resultSet.getString(3));
             user.setPhoto(resultSet.getBlob(4));
             preparedStatement.close();
         } catch (SQLException e) {
@@ -112,7 +112,7 @@ public class UserDao implements AbstractDao<User> {
     public boolean create(User entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(INSERT_PSTM)) {
             preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setLong(2, entity.getPassword());
+            preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setBlob(3, entity.getPhoto());
             preparedStatement.execute();
 
@@ -126,7 +126,7 @@ public class UserDao implements AbstractDao<User> {
     public boolean update(User entity) throws DaoException {
         try (PreparedStatement preparedStatement = proxyConnection.prepareStatement(UPDATE_PSTM)) {
             preparedStatement.setString(1, entity.getLogin());
-            preparedStatement.setLong(2, entity.getPassword());
+            preparedStatement.setString(2, entity.getPassword());
             preparedStatement.setBlob(3, entity.getPhoto());
             preparedStatement.setInt(4, entity.getUserId());
             preparedStatement.execute();

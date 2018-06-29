@@ -23,17 +23,17 @@
     }
 
     body {
-
         list-style-type: none;
         margin: 0;
         padding: 0;
         overflow: hidden;
         background-color: #38b3cd;
-
+        color: #616161;
     }
 </style>
 <body>
 <fmt:message key="message.welcomePage" bundle="${rb}"/>
+${userRegitered}
 <form action="UploadPage"
       method="get">
     <input type="submit" style="color: #616161" value="<fmt:message key="label.button.UploadPage" bundle="${rb}"/>">
