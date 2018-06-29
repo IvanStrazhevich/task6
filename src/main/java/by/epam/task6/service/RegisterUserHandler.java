@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class RegisterUserHandler implements RequestHandler {
-    private RequestHandler requestHandler;
     private static final String MESSAGE_USER_EXIST = "User with this name already exist, try another";
     private static final String MESSAGE_USER_REGISTERED = "User registered";
     private static final String MESSAGE_USER_NOT_REGISTERED = "User is not registered, try again";
@@ -22,13 +21,14 @@ public class RegisterUserHandler implements RequestHandler {
     private SHAConverter shaConverter = new SHAConverter();
 
     private boolean createUser(User user) throws DaoException {
-
+        boolean flag = false;
         try (UserDao userDao = new UserDao()) {
-            userDao.create(user);
+            flag = userDao.create(user);
+
         } catch (DaoException e) {
             throw new DaoException(e);
         }
-        return true;
+        return flag;
     }
 
     private ArrayList<User> getUserslist() throws DaoException {
@@ -52,29 +52,39 @@ public class RegisterUserHandler implements RequestHandler {
             list = getUserslist();
             shalogin = shaConverter.convertToSHA1(login);
             shaPassword = shaConverter.convertToSHA1(password);
+            boolean flag = false;
             for (User user : list) {
                 if (request.getSession().getAttribute("Login") == null) {
                     String loginDB = user.getLogin();
-                    String passDB = user.getPassword();
-                    if (shalogin.equals(loginDB) && shaPassword.equals(passDB)) {
+                    logger.info(loginDB);
+                    logger.info(shalogin);
+                    if (shalogin.equals(loginDB)) {
                         request.setAttribute("userExist", MESSAGE_USER_EXIST);
-                        requestHandler = new LoginPageHandler();
-                        requestHandler.execute(request, response);
+                        if (request.getRequestDispatcher("/jsp/RegisterPage.jsp") != null) {
+                            logger.info("redirect to login page");
+                            request.getRequestDispatcher("/jsp/RegisterPage.jsp").forward(request, response);
+                            flag = true;
+                            break;
+                        }
+
                     }
                 }
             }
-            if (request.getSession().getAttribute("Login") == null) {
+            if (!flag) {
                 User user = new User();
                 user.setLogin(shalogin);
                 user.setPassword(shaPassword);
                 if (createUser(user)) {
+                    request.getSession().setAttribute("Login", "Logged");
                     request.setAttribute("userRegistered", MESSAGE_USER_REGISTERED);
-                    requestHandler = new WelcomePageHandler();
-                    requestHandler.execute(request, response);
+                    if (request.getRequestDispatcher("/jsp/WelcomePage.jsp") != null) {
+                        request.getRequestDispatcher("/jsp/WelcomePage.jsp").forward(request, response);
+                    }
                 } else {
                     request.setAttribute("userNotRegistered", MESSAGE_USER_NOT_REGISTERED);
-                    requestHandler = new LoginPageHandler();
-                    requestHandler.execute(request, response);
+                    if (request.getRequestDispatcher("/jsp/RegisterPage.jsp") != null) {
+                        request.getRequestDispatcher("/jsp/RegisterPage.jsp").forward(request, response);
+                    }
                 }
             }
         } catch (EncriptingException | DaoException e) {

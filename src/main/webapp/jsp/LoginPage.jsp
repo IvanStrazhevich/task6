@@ -22,8 +22,10 @@
 </style>
 <body>
 <hr>
-${userExist}
+<fmt:message key="label.button.LoginPage" bundle="${rb}"/>
 ${userNotRegistered}
+${needRegister}
+${needLogin}
 <form action="CheckLogin" method=post>
     <p><strong><fmt:message key="message.enterLogin" bundle="${rb}"/> </strong>
         <input type="text" name="login" size="15">

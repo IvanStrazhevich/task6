@@ -33,7 +33,8 @@
 </style>
 <body>
 <fmt:message key="message.welcomePage" bundle="${rb}"/>
-${userRegitered}
+${userRegistered}
+${greeting}
 <form action="UploadPage"
       method="get">
     <input type="submit" style="color: #616161" value="<fmt:message key="label.button.UploadPage" bundle="${rb}"/>">

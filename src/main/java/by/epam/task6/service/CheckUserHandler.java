@@ -15,9 +15,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class CheckUserHandler implements RequestHandler {
-    private LoginPageHandler loginPageHandler = new LoginPageHandler();
     private static Logger logger = LogManager.getLogger();
     private SHAConverter shaConverter = new SHAConverter();
+    private static final String MESSAGE = "Wrong name or password. Enter correct or register";
+    private static final String MESSAGE_SUCCESS="You are logged in";
 
     private ArrayList<User> getUserslist() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
@@ -43,7 +44,11 @@ public class CheckUserHandler implements RequestHandler {
                     String loginDB = user.getLogin();
                     String passDB = user.getPassword();
                     if (shalogin.equals(loginDB) && shaPassword.equals(passDB)) {
-                        request.getSession().setAttribute("Login", "ok");
+                        request.getSession().setAttribute("Login", "Logged");
+                        request.setAttribute("greeting", MESSAGE_SUCCESS );
+                        if (request.getRequestDispatcher("/jsp/WelcomePage.jsp") != null) {
+                            request.getRequestDispatcher("/jsp/WelcomePage.jsp").forward(request, response);
+                        }
                     }
                 }
             }
@@ -51,12 +56,10 @@ public class CheckUserHandler implements RequestHandler {
             logger.error(e);
             throw new ServletException(e);
         }
-
         if (request.getSession().getAttribute("Login") == null) {
-           loginPageHandler.execute(request, response);
-        } else {
-            if (request.getRequestDispatcher("/jsp/WelcomePage.jsp") != null) {
-                request.getRequestDispatcher("/jsp/WelcomePage.jsp").forward(request, response);
+            request.getSession().setAttribute("needRegister", MESSAGE);
+            if (request.getRequestDispatcher("/jsp/LoginPage.jsp") != null) {
+                request.getRequestDispatcher("/jsp/LoginPage.jsp").forward(request, response);
             }
         }
         return "sucsess";

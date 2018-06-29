@@ -22,6 +22,8 @@
 </style>
 <body>
 <hr>
+<fmt:message key="label.button.RegisterPage" bundle="${rb}"/>
+${userExist}
 ${needLogin}
 <form action="RegisterUser" method=post>
     <p><strong><fmt:message key="message.enterLogin" bundle="${rb}"/> </strong>
@@ -32,7 +34,7 @@ ${needLogin}
     <p>
     <p>
         <input type="hidden" size="15" name="action" value="RegisterUser">
-        <input type="submit" value="<fmt:message key="label.button.Submit" bundle="${rb}"/>">
+        <input type="submit" value="<fmt:message key="label.button.Register" bundle="${rb}"/>">
         <input type="reset" value="<fmt:message key="label.button.Reset" bundle="${rb}"/>">
 </form>
 <hr>

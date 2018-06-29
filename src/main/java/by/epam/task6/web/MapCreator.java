@@ -32,6 +32,9 @@ public class MapCreator {
                 case REGISTER_USER:
                     servletMap.put(command.value, new RegisterUserHandler());
                     break;
+                case REGISTER_PAGE:
+                    servletMap.put(command.value, new RegisterPageHandler());
+                    break;
                 default:
                     throw new WebXmlServletException("There is no such command at "+ CommandEnum.class +command.value);
             }

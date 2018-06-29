@@ -59,7 +59,7 @@ public class ProxyConnectionPool {
     }
 
     public void closeAll() throws ProxyPoolException {
-        try {
+      /*  try {
             int usedsize=connectionInUse.size();
             for (int i=0;i<usedsize; i++ ){
                 logger.info(connectionPoolFree.size() + " i: " + i + " opened");
@@ -67,7 +67,7 @@ public class ProxyConnectionPool {
             }
         } catch (SQLException | InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         try {
             int poolsize = connectionPoolFree.size();
             for (int i = 0; i < poolsize; i++) {
