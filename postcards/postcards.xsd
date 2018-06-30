@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.epam.by/postcards"
+        xmlns:cns="http://www.epam.by/postcards"
+        elementFormDefault="qualified">
+    <element name="postcard" type="cns:Postcard"/>
+    <element name="theme" type="simpleType"/>
+    <element name="old-cards">
+        <complexType>
+            <sequence>
+                <element name="postcard"
+                         type="cns:Postcard"
+                         minOccurs="2"
+                         maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+    <complexType name="Postcard">
+        <sequence>
+            <element name="theme" type="attribute">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="City Scape"/>
+                        <enumeration value="Nature"/>
+                        <enumeration value="People"/>
+                        <enumeration value="Religion"/>
+                        <enumeration value="Sport"/>
+                        <enumeration value="Architecture"/>
+                        <enumeration value="Art"/>
+                        <enumeration value="Transport"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="valuable-postcards-characteristics" type="cns:Valuable-postcards-characteristics"/>
+        </sequence>
+
+        <attribute name="card-type" use="required" default="ordinary">
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="ordinary"/>
+                    <enumeration value="congratulations"/>
+                    <enumeration value="advertising"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+
+        <attribute name="sent" use="required" type="boolean" default="false">
+            <simpleType>
+                <restriction base="boolean">
+                    <enumeration value="false"/>
+                    <enumeration value="true"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+
+        <attribute name="postcardId" use="required" type="ID"/>
+    </complexType>
+
+    <complexType name="Postcards-characteristics">
+        <sequence>
+            <element name="country" default="Belarus">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="Belarus"/>
+                        <enumeration value="Great Britain"/>
+                        <enumeration value="USA"/>
+                        <enumeration value="Philippine"/>
+                        <enumeration value="Australia"/>
+                        <enumeration value="New Zealand"/>
+                        <enumeration value="China"/>
+                        <enumeration value="Japan"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Valuable-postcards-characteristics">
+        <complexContent>
+            <extension base="cns:Postcards-characteristics">
+                <sequence>
+                    <element name="year" type="gYear"/>
+                    <element name="author" type="cns:Author"/>
+                </sequence>
+                <attribute name="valuable" use="required" default="thematic">
+                    <simpleType>
+                        <restriction base="string">
+                            <enumeration value="collection"/>
+                            <enumeration value="historical"/>
+                            <enumeration value="thematic"/>
+                        </restriction>
+                    </simpleType>
+                </attribute>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="Author">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="lastname" type="string"/>
+        </sequence>
+    </complexType>
+</schema>
