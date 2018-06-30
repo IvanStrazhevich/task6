@@ -14,6 +14,7 @@ import java.util.Locale;
 
 public class UploadPageHandler implements RequestHandler {
     private static final String MESSAGE = "message.needLogin";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (null != request.getParameter(AttributeEnum.LANG.getValue())) {
@@ -33,6 +34,7 @@ public class UploadPageHandler implements RequestHandler {
         } else {
             XmlParseToTableHandler.langDefinition(request);
         }
+
         ResourceManager.INSTANCE.changeResource(new Locale(Config.FMT_LOCALE));
         if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) != null) {
             request.setAttribute(AttributeEnum.DOM.getValue(), ParserType.DOM);

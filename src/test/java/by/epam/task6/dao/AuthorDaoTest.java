@@ -78,7 +78,9 @@ public class AuthorDaoTest {
         Author expected = authorDao.findEntityById(authorDao.findLastInsertId());
         expected.setAuthorName("Mike");
         authorDao.update(expected);
+        logger.info("exp: " + expected);
         Author actual = authorDao.findEntityById(expected.getAuthorId());
+        logger.info("act: " + actual);
         Assert.assertEquals(expected, actual);
     }
 }

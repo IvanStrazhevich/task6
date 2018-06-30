@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 public class XmlParseToTableHandler implements RequestHandler {
     private static final String UPLOAD_DIR = "uploads";
+    Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,6 +37,7 @@ public class XmlParseToTableHandler implements RequestHandler {
         String parser = request.getParameter(AttributeEnum.PARSER.getValue());
         XMLParserFactory xmlParserFactory = new XMLParserFactory();
         XMLParserBuilder xmlParserBuilder = xmlParserFactory.createPostcardBuilder(parser);
+        logger.info(new File("").getAbsolutePath() + File.separator + UPLOAD_DIR + File.separator + filename);
         xmlParserBuilder.buildPostcards(new File("").getAbsolutePath() + File.separator + UPLOAD_DIR + File.separator + filename);
         ArrayList<Postcard> postcards = xmlParserBuilder.findPostcards();
         request.setAttribute(AttributeEnum.PARSER.getValue(), parser);

@@ -123,6 +123,7 @@ public class AuthorDao implements AbstractDao<Author> {
             preparedStatement.setString(1, entity.getAuthorName());
             preparedStatement.setString(2, entity.getAuthorLastName());
             preparedStatement.setInt(3, entity.getAuthorId());
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new DaoException("Exception on update", e);
         }

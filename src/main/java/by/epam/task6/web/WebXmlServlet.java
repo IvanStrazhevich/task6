@@ -15,7 +15,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @WebServlet(name = "WebXmlServlet",
-        urlPatterns = {"/WelcomePage", "/UploadPage", "/UploadResultPage", "/LoginPage", "/CheckLogin", "/RegisterUser", "/RegisterPage"})
+        urlPatterns = {"/WelcomePage", "/UploadPage", "/UploadResultPage", "/LoginPage",
+                "/CheckLogin", "/RegisterUser", "/RegisterPage"})
 @MultipartConfig(location = ""//The directory location where files will be stored
         , fileSizeThreshold = 1024 * 1024
         , maxFileSize = 1024 * 1024 * 5

@@ -14,12 +14,14 @@ import java.io.IOException;
 public class XmlReadHandler implements RequestHandler {
     private static final String UPLOAD_DIR = "uploads";
     private XmlParseToTableHandler xmlParseToTableHandler = new XmlParseToTableHandler();
+    Logger logger = LogManager.getLogger();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         XmlParseToTableHandler.langDefinition(request);
         String applicationPath = new File("").getAbsolutePath();
         String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+        String filename = null;
         File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
@@ -28,9 +30,12 @@ public class XmlReadHandler implements RequestHandler {
             for (Part part : request.getParts()) {
                 if (null != part.getSubmittedFileName()) {
                     part.write(uploadFilePath + File.separator + part.getSubmittedFileName());
+                    filename = part.getSubmittedFileName();
+
                 }
             }
         }
+        logger.info(uploadFilePath + File.separator + filename);
         xmlParseToTableHandler.execute(request, response);
         return AttributeEnum.SUCCESS.getValue();
     }
