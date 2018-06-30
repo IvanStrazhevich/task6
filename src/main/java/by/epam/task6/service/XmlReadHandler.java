@@ -1,6 +1,6 @@
 package by.epam.task6.service;
 
-import by.epam.task6.exception.WebXmlServletException;
+import by.epam.task6.web.AttributeEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,12 +12,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class XmlReadHandler implements RequestHandler {
-    Logger logger = LogManager.getLogger();
     private static final String UPLOAD_DIR = "uploads";
     private XmlParseToTableHandler xmlParseToTableHandler = new XmlParseToTableHandler();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        XmlParseToTableHandler.langDefinition(request);
         String applicationPath = new File("").getAbsolutePath();
         String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
         File fileSaveDir = new File(uploadFilePath);
@@ -32,7 +32,7 @@ public class XmlReadHandler implements RequestHandler {
             }
         }
         xmlParseToTableHandler.execute(request, response);
-        return "success";
+        return AttributeEnum.SUCCESS.getValue();
     }
 
     public void setXmlParseToTableHandler(XmlParseToTableHandler xmlParseToTableHandler) {

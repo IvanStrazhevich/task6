@@ -1,28 +1,33 @@
 package by.epam.task6.service;
 
 
+import by.epam.task6.ResourceManager;
 import by.epam.task6.dao.impl.UserDao;
 import by.epam.task6.entity.User;
 import by.epam.task6.exception.DaoException;
 import by.epam.task6.exception.EncriptingException;
+import by.epam.task6.web.AttributeEnum;
+import by.epam.task6.web.PagesEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CheckUserHandler implements RequestHandler {
     private static Logger logger = LogManager.getLogger();
     private SHAConverter shaConverter = new SHAConverter();
-    private static final String MESSAGE = "Wrong name or password. Enter correct or register";
-    private static final String MESSAGE_SUCCESS="You are logged in";
+    private static final String MESSAGE = "message.wrongloginAndPass";
+    private static final String MESSAGE_SUCCESS = "message.loginOk";
 
     private ArrayList<User> getUserslist() throws DaoException {
         ArrayList<User> users = new ArrayList<>();
-        try (UserDao userDao = new UserDao()){
+        try (UserDao userDao = new UserDao()) {
             users = userDao.findAll();
         } catch (DaoException e) {
             throw new DaoException(e);
@@ -32,22 +37,24 @@ public class CheckUserHandler implements RequestHandler {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+        XmlParseToTableHandler.langDefinition(request);
+        ResourceManager.INSTANCE.changeResource(new Locale(Config.FMT_LOCALE));
+        String login = request.getParameter(AttributeEnum.LOGIN.getValue());
+        String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
         try {
             ArrayList<User> list = new ArrayList();
             list = getUserslist();
             String shalogin = shaConverter.convertToSHA1(login);
             String shaPassword = shaConverter.convertToSHA1(password);
             for (User user : list) {
-                if (request.getSession().getAttribute("Login") == null) {
+                if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
                     String loginDB = user.getLogin();
                     String passDB = user.getPassword();
                     if (shalogin.equals(loginDB) && shaPassword.equals(passDB)) {
-                        request.getSession().setAttribute("Login", "Logged");
-                        request.setAttribute("greeting", MESSAGE_SUCCESS );
-                        if (request.getRequestDispatcher("/jsp/WelcomePage.jsp") != null) {
-                            request.getRequestDispatcher("/jsp/WelcomePage.jsp").forward(request, response);
+                        request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LOGGED.getValue());
+                        request.setAttribute(AttributeEnum.GREETING.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
+                        if (request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()) != null) {
+                            request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()).forward(request, response);
                         }
                     }
                 }
@@ -56,13 +63,17 @@ public class CheckUserHandler implements RequestHandler {
             logger.error(e);
             throw new ServletException(e);
         }
-        if (request.getSession().getAttribute("Login") == null) {
-            request.getSession().setAttribute("needRegister", MESSAGE);
-            if (request.getRequestDispatcher("/jsp/LoginPage.jsp") != null) {
-                request.getRequestDispatcher("/jsp/LoginPage.jsp").forward(request, response);
+        if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
+            request.getSession().setAttribute(AttributeEnum.NEED_REGISTER.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
+            if (request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()) != null) {
+                request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()).forward(request, response);
+            }
+        } else {
+            if (request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()) != null) {
+                request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()).forward(request, response);
             }
         }
-        return "sucsess";
+        return AttributeEnum.SUCCESS.getValue();
     }
 
     public void setShaConverter(SHAConverter shaConverter) {

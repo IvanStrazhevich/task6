@@ -44,7 +44,7 @@ public class DomBuilder extends XMLParserBuilder {
             doc = docBuilder.parse(fileName);
             Element root = doc.getDocumentElement();
             // получение списка дочерних элементов <postcard>
-            NodeList postcardList = root.getElementsByTagName("postcard");
+            NodeList postcardList = root.getElementsByTagName(PostcardEnum.POSTCARD.getValue());
             for (int i = 0; i < postcardList.getLength(); i++) {
                 Element postcardElement = (Element) postcardList.item(i);
                 Postcard postcard = buildPostcard(postcardElement);
@@ -60,25 +60,25 @@ public class DomBuilder extends XMLParserBuilder {
     private Postcard buildPostcard(Element postcardElement) {
         Postcard postcard = new Postcard();
         // заполнение объекта Postcard
-        postcard.setCardType(CardType.valueOf(postcardElement.getAttribute("card-type").replace(' ', '_').toUpperCase()));
-        postcard.setSent(Boolean.parseBoolean(postcardElement.getAttribute("sent")));
-        postcard.setPostcardId(postcardElement.getAttribute("postcardId"));
-        postcard.setTheme(Theme.valueOf(getElementTextContent(postcardElement, "theme").replace(' ', '_').toUpperCase()));
+        postcard.setCardType(CardType.valueOf(postcardElement.getAttribute(PostcardEnum.CARD_TYPE.getValue()).replace(' ', '_').toUpperCase()));
+        postcard.setSent(Boolean.parseBoolean(postcardElement.getAttribute(PostcardEnum.SENT.getValue())));
+        postcard.setPostcardId(postcardElement.getAttribute(PostcardEnum.POSTCARD_ID.getValue()));
+        postcard.setTheme(Theme.valueOf(getElementTextContent(postcardElement, PostcardEnum.THEME.getValue()).replace(' ', '_').toUpperCase()));
 
         ValuablePostcardCharacteristics valPostcardCharacts = new ValuablePostcardCharacteristics();
 
-        Element valPostcardCharsElement = (Element) postcardElement.getElementsByTagName("valuable-postcards-characteristics").item(0);
-        valPostcardCharacts.setValuable(Valuable.valueOf(valPostcardCharsElement.getAttribute("valuable").toUpperCase()));
-        valPostcardCharacts.setCountry(Country.valueOf(getElementTextContent(valPostcardCharsElement, "country")
+        Element valPostcardCharsElement = (Element) postcardElement.getElementsByTagName(PostcardEnum.VALUABLE_POSTCARDS_CHARACTERISTICS.getValue()).item(0);
+        valPostcardCharacts.setValuable(Valuable.valueOf(valPostcardCharsElement.getAttribute(PostcardEnum.VALUABLE.getValue()).toUpperCase()));
+        valPostcardCharacts.setCountry(Country.valueOf(getElementTextContent(valPostcardCharsElement, PostcardEnum.COUNTRY.getValue())
                 .replace(' ', '_').toUpperCase()));
-        valPostcardCharacts.setYear(Year.parse(getElementTextContent(valPostcardCharsElement, "year")));
+        valPostcardCharacts.setYear(Year.parse(getElementTextContent(valPostcardCharsElement, PostcardEnum.YEAR.getValue())));
 
         Author author = new Author();
 
-        Element authorElement = (Element) postcardElement.getElementsByTagName("author").item(0);
+        Element authorElement = (Element) postcardElement.getElementsByTagName(PostcardEnum.AUTHOR.getValue()).item(0);
         author.setAuthorId(Integer.valueOf(postcard.getPostcardId().replace("card", "")));
-        author.setAuthorName(getElementTextContent(authorElement, "name"));
-        author.setAuthorLastName(getElementTextContent(authorElement, "lastname"));
+        author.setAuthorName(getElementTextContent(authorElement, PostcardEnum.NAME.getValue()));
+        author.setAuthorLastName(getElementTextContent(authorElement, PostcardEnum.LASTNAME.getValue()));
         valPostcardCharacts.setAuthorId(author.getAuthorId());
         valPostcardCharacts.setAuthor(author);
         valPostcardCharacts.setPostcardsCharacteristicsId(postcard.getPostcardId());

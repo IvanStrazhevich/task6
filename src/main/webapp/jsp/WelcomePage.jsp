@@ -1,8 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<fmt:setLocale value="${be-BY}" scope="session"/>
+<fmt:setLocale value="${be_BY}" scope="session"/>
 <fmt:setBundle basename="message" var="rb"/>
-<html lang="ru-RU">
+<html lang="be">
 <head>
     <title><fmt:message key="label.button.WelcomePage" bundle="${rb}"/></title>
 </head>
@@ -36,7 +36,14 @@
 ${userRegistered}
 ${greeting}
 <form action="UploadPage"
-      method="get">
+method="get">
+    <fmt:message key="label.button.language" bundle="${rb}"/>
+<select name="lang" style="background: #38b3cd; color: #616161">
+    <option value="be">be</option>
+    <option value="ru">ru</option>
+    <option value="en">en</option>
+</select>
+   <br>
     <input type="submit" style="color: #616161" value="<fmt:message key="label.button.UploadPage" bundle="${rb}"/>">
     <input type="hidden" name="action" value="UploadPage">
 </form>

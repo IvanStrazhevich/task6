@@ -2,9 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<fmt:setLocale value="${be-BY}" scope="session"/>
+<fmt:setLocale value="${be_BY}" scope="session"/>
 <fmt:setBundle basename="message" var="rb"/>
-<html lang="ru-RU">
+<html lang="be">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -38,6 +38,8 @@
 
 ${result}
 ${parser}<br>
+
+
 <div>
     <h4>
         <table style="color: #616161">

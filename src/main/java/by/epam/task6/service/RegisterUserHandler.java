@@ -1,22 +1,27 @@
 package by.epam.task6.service;
 
+import by.epam.task6.ResourceManager;
 import by.epam.task6.dao.impl.UserDao;
 import by.epam.task6.entity.User;
 import by.epam.task6.exception.DaoException;
 import by.epam.task6.exception.EncriptingException;
+import by.epam.task6.web.AttributeEnum;
+import by.epam.task6.web.PagesEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.jsp.jstl.core.Config;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class RegisterUserHandler implements RequestHandler {
-    private static final String MESSAGE_USER_EXIST = "User with this name already exist, try another";
-    private static final String MESSAGE_USER_REGISTERED = "User registered";
-    private static final String MESSAGE_USER_NOT_REGISTERED = "User is not registered, try again";
+    private static final String MESSAGE_USER_EXIST ="message.userExist";
+    private static final String MESSAGE_USER_REGISTERED = "message.userRegistered";
+    private static final String MESSAGE_USER_NOT_REGISTERED = "message.userNotRegistered";
     private static Logger logger = LogManager.getLogger();
     private SHAConverter shaConverter = new SHAConverter();
 
@@ -43,6 +48,8 @@ public class RegisterUserHandler implements RequestHandler {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        XmlParseToTableHandler.langDefinition(request);
+        ResourceManager.INSTANCE.changeResource(new Locale(Config.FMT_LOCALE));
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String shalogin = null;
@@ -56,13 +63,10 @@ public class RegisterUserHandler implements RequestHandler {
             for (User user : list) {
                 if (request.getSession().getAttribute("Login") == null) {
                     String loginDB = user.getLogin();
-                    logger.info(loginDB);
-                    logger.info(shalogin);
                     if (shalogin.equals(loginDB)) {
-                        request.setAttribute("userExist", MESSAGE_USER_EXIST);
-                        if (request.getRequestDispatcher("/jsp/RegisterPage.jsp") != null) {
-                            logger.info("redirect to login page");
-                            request.getRequestDispatcher("/jsp/RegisterPage.jsp").forward(request, response);
+                        request.setAttribute(AttributeEnum.USER_EXIST.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
+                        if (request.getRequestDispatcher(PagesEnum.REGISTER_PAGE.getValue()) != null) {
+                            request.getRequestDispatcher(PagesEnum.REGISTER_PAGE.getValue()).forward(request, response);
                             flag = true;
                             break;
                         }
@@ -75,15 +79,15 @@ public class RegisterUserHandler implements RequestHandler {
                 user.setLogin(shalogin);
                 user.setPassword(shaPassword);
                 if (createUser(user)) {
-                    request.getSession().setAttribute("Login", "Logged");
-                    request.setAttribute("userRegistered", MESSAGE_USER_REGISTERED);
-                    if (request.getRequestDispatcher("/jsp/WelcomePage.jsp") != null) {
-                        request.getRequestDispatcher("/jsp/WelcomePage.jsp").forward(request, response);
+                    request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LANG.getValue());
+                    request.setAttribute(AttributeEnum.USER_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
+                    if (request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()) != null) {
+                        request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()).forward(request, response);
                     }
                 } else {
-                    request.setAttribute("userNotRegistered", MESSAGE_USER_NOT_REGISTERED);
-                    if (request.getRequestDispatcher("/jsp/RegisterPage.jsp") != null) {
-                        request.getRequestDispatcher("/jsp/RegisterPage.jsp").forward(request, response);
+                    request.setAttribute(AttributeEnum.USER_NOT_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
+                    if (request.getRequestDispatcher(PagesEnum.REGISTER_PAGE.getValue()) != null) {
+                        request.getRequestDispatcher(PagesEnum.REGISTER_PAGE.getValue()).forward(request, response);
                     }
                 }
             }
@@ -91,6 +95,6 @@ public class RegisterUserHandler implements RequestHandler {
             logger.error(e);
             throw new ServletException(e);
         }
-        return "sucsess";
+        return AttributeEnum.SUCCESS.getValue();
     }
 }

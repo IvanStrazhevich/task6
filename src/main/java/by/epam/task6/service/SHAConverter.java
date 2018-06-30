@@ -10,6 +10,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class SHAConverter {
     private static Logger logger = LogManager.getLogger();
+    private static final String ENCODE="SHA-1";
 
     public SHAConverter() {
     }
@@ -17,7 +18,7 @@ public class SHAConverter {
     public String convertToSHA1(String string) throws EncriptingException {
         byte[] digest = null;
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest md = MessageDigest.getInstance(ENCODE);
             md.reset();
             md.update(string.getBytes());
             digest = md.digest();

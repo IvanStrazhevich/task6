@@ -15,28 +15,28 @@ public class MapCreator {
                 ) {
             switch (command){
                 case LOGIN_PAGE:
-                    servletMap.put(command.value, new LoginPageHandler());
+                    servletMap.put(command.getValue(), new LoginPageHandler());
                     break;
                 case CHECK_LOGIN:
-                    servletMap.put(command.value, new CheckUserHandler());
+                    servletMap.put(command.getValue(), new CheckUserHandler());
                     break;
                 case WELCOME_PAGE:
-                    servletMap.put(command.value, new WelcomePageHandler());
+                    servletMap.put(command.getValue(), new WelcomePageHandler());
                     break;
                 case UPLOAD_PAGE:
-                    servletMap.put(command.value, new UploadPageHandler());
+                    servletMap.put(command.getValue(), new UploadPageHandler());
                     break;
                 case UPLOAD_RESULT_PAGE:
-                    servletMap.put(command.value, new XmlReadHandler());
+                    servletMap.put(command.getValue(), new XmlReadHandler());
                     break;
                 case REGISTER_USER:
-                    servletMap.put(command.value, new RegisterUserHandler());
+                    servletMap.put(command.getValue(), new RegisterUserHandler());
                     break;
                 case REGISTER_PAGE:
-                    servletMap.put(command.value, new RegisterPageHandler());
+                    servletMap.put(command.getValue(), new RegisterPageHandler());
                     break;
                 default:
-                    throw new WebXmlServletException("There is no such command at "+ CommandEnum.class +command.value);
+                    throw new WebXmlServletException("There is no such command at "+ CommandEnum.class +command.getValue());
             }
         }
     }
