@@ -34,21 +34,17 @@ public class UploadPageHandler implements RequestHandler {
         } else {
             XmlParseToTableHandler.langDefinition(request);
         }
-
+        String page = null;
         ResourceManager.INSTANCE.changeResource(new Locale(Config.FMT_LOCALE));
         if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) != null) {
             request.setAttribute(AttributeEnum.DOM.getValue(), ParserType.DOM);
             request.setAttribute(AttributeEnum.SAX.getValue(), ParserType.SAX);
             request.setAttribute(AttributeEnum.STAX.getValue(), ParserType.StAX);
-            if (request.getRequestDispatcher(PagesEnum.UPLOAD_PAGE.getValue()) != null) {
-                request.getRequestDispatcher(PagesEnum.UPLOAD_PAGE.getValue()).forward(request, response);
-            }
+            page=PagesEnum.UPLOAD_PAGE.getValue();
         } else {
             request.setAttribute(AttributeEnum.NEED_LOGIN.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
-            if (request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()) != null) {
-                request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()).forward(request, response);
-            }
+            page=PagesEnum.LOGIN_PAGE.getValue();
         }
-        return AttributeEnum.SUCCESS.getValue();
+        return page;
     }
 }

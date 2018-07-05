@@ -18,16 +18,13 @@ public class WelcomePageHandler implements RequestHandler {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         XmlParseToTableHandler.langDefinition(request);
         ResourceManager.INSTANCE.changeResource(new Locale(Config.FMT_LOCALE));
+        String page = null;
         if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) != null) {
-            if (request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()) != null) {
-                request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()).forward(request, response);
-            }
+            page = PagesEnum.WELCOME_PAGE.getValue();
         } else {
             request.setAttribute(AttributeEnum.NEED_LOGIN.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
-            if (request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()) != null) {
-                request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()).forward(request, response);
-            }
+            page = PagesEnum.LOGIN_PAGE.getValue();
         }
-        return AttributeEnum.SUCCESS.getValue();
+        return page;
     }
 }

@@ -17,17 +17,14 @@ public class LoginPageHandler implements RequestHandler {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         XmlParseToTableHandler.langDefinition(request);
+        String page = null;
         ResourceManager.INSTANCE.changeResource(new Locale(Config.FMT_LOCALE));
         if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
             request.setAttribute(AttributeEnum.NEED_LOGIN.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
-            if (request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()) != null) {
-                request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()).forward(request, response);
-            }
+            page = PagesEnum.LOGIN_PAGE.getValue();
         } else {
-            if (request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()) != null) {
-                request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()).forward(request, response);
-            }
+            page = PagesEnum.WELCOME_PAGE.getValue();
         }
-        return AttributeEnum.SUCCESS.getValue();
+        return page;
     }
 }

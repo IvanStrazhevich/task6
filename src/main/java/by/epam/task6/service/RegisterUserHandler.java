@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class RegisterUserHandler implements RequestHandler {
-    private static final String MESSAGE_USER_EXIST ="message.userExist";
+    private static final String MESSAGE_USER_EXIST = "message.userExist";
     private static final String MESSAGE_USER_REGISTERED = "message.userRegistered";
     private static final String MESSAGE_USER_NOT_REGISTERED = "message.userNotRegistered";
     private static Logger logger = LogManager.getLogger();
@@ -54,23 +54,22 @@ public class RegisterUserHandler implements RequestHandler {
         String password = request.getParameter("password");
         String shalogin = null;
         String shaPassword = null;
+        String page = null;
         try {
             ArrayList<User> list = new ArrayList();
             list = getUserslist();
             shalogin = shaConverter.convertToSHA1(login);
             shaPassword = shaConverter.convertToSHA1(password);
             boolean flag = false;
+
             for (User user : list) {
                 if (request.getSession().getAttribute("Login") == null) {
                     String loginDB = user.getLogin();
                     if (shalogin.equals(loginDB)) {
                         request.setAttribute(AttributeEnum.USER_EXIST.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_EXIST));
-                        if (request.getRequestDispatcher(PagesEnum.REGISTER_PAGE.getValue()) != null) {
-                            request.getRequestDispatcher(PagesEnum.REGISTER_PAGE.getValue()).forward(request, response);
-                            flag = true;
-                            break;
-                        }
-
+                        page = PagesEnum.REGISTER_PAGE.getValue();
+                        flag = true;
+                        break;
                     }
                 }
             }
@@ -81,20 +80,16 @@ public class RegisterUserHandler implements RequestHandler {
                 if (createUser(user)) {
                     request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LANG.getValue());
                     request.setAttribute(AttributeEnum.USER_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_REGISTERED));
-                    if (request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()) != null) {
-                        request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()).forward(request, response);
-                    }
+                    page=PagesEnum.WELCOME_PAGE.getValue();
                 } else {
                     request.setAttribute(AttributeEnum.USER_NOT_REGISTERED.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_USER_NOT_REGISTERED));
-                    if (request.getRequestDispatcher(PagesEnum.REGISTER_PAGE.getValue()) != null) {
-                        request.getRequestDispatcher(PagesEnum.REGISTER_PAGE.getValue()).forward(request, response);
-                    }
+                    page=PagesEnum.REGISTER_PAGE.getValue();
                 }
             }
         } catch (EncriptingException | DaoException e) {
             logger.error(e);
             throw new ServletException(e);
         }
-        return AttributeEnum.SUCCESS.getValue();
+        return page;
     }
 }

@@ -40,7 +40,16 @@ public class WebXmlServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         String action = request.getParameter("action");
         RequestHandler requestHandler = servletMap.get(action);
-        requestHandler.execute(request, response);
+        String page = requestHandler.execute(request, response);
+        if(page!=null){
+            if (request.getRequestDispatcher(page)!=null) {
+                   request.getRequestDispatcher(page).forward(request, response);
+                }
+        } else {
+            if (request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()) != null) {
+                   request.getRequestDispatcher(PagesEnum.ERROR_PAGE.getValue()).forward(request, response);
+                }
+        }
     }
 
     @Override

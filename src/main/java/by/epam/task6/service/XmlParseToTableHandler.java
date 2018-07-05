@@ -43,10 +43,10 @@ public class XmlParseToTableHandler implements RequestHandler {
         request.setAttribute(AttributeEnum.PARSER.getValue(), parser);
         request.setAttribute(AttributeEnum.RESULT.getValue(), filename);
         request.setAttribute(AttributeEnum.POSTCARDS.getValue(), postcards);
-        if (request.getRequestDispatcher(PagesEnum.UPLOAD_RESULT_PAGE.getValue()) != null) {
-            request.getRequestDispatcher(PagesEnum.UPLOAD_RESULT_PAGE.getValue()).forward(request, response);
-        }
-        return AttributeEnum.SUCCESS.getValue();
+        //if (request.getRequestDispatcher(PagesEnum.UPLOAD_RESULT_PAGE.getValue()) != null) {
+        //    request.getRequestDispatcher(PagesEnum.UPLOAD_RESULT_PAGE.getValue()).forward(request, response);
+        //}
+        return PagesEnum.UPLOAD_RESULT_PAGE.getValue();
     }
 
     static void langDefinition(HttpServletRequest request) {

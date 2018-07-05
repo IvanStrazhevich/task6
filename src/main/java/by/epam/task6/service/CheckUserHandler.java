@@ -38,24 +38,29 @@ public class CheckUserHandler implements RequestHandler {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         XmlParseToTableHandler.langDefinition(request);
+        String page = null;
         ResourceManager.INSTANCE.changeResource(new Locale(Config.FMT_LOCALE));
         String login = request.getParameter(AttributeEnum.LOGIN.getValue());
         String password = request.getParameter(AttributeEnum.PASSWORD.getValue());
+        Boolean logeed = false;
         try {
             ArrayList<User> list = new ArrayList();
             list = getUserslist();
             String shalogin = shaConverter.convertToSHA1(login);
             String shaPassword = shaConverter.convertToSHA1(password);
-            for (User user : list) {
+            for (int i = 0; i < list.size() && !logeed; i++) {
+                User user = list.get(i);
                 if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
                     String loginDB = user.getLogin();
                     String passDB = user.getPassword();
                     if (shalogin.equals(loginDB) && shaPassword.equals(passDB)) {
                         request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LOGGED.getValue());
+                        logeed = true;
                         request.setAttribute(AttributeEnum.GREETING.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
-                        if (request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()) != null) {
-                            request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()).forward(request, response);
-                        }
+                        page = PagesEnum.WELCOME_PAGE.getValue();
+                    } else {
+                        request.getSession().setAttribute(AttributeEnum.NEED_REGISTER.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
+                        page = PagesEnum.LOGIN_PAGE.getValue();
                     }
                 }
             }
@@ -63,17 +68,7 @@ public class CheckUserHandler implements RequestHandler {
             logger.error(e);
             throw new ServletException(e);
         }
-        if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
-            request.getSession().setAttribute(AttributeEnum.NEED_REGISTER.getValue(), ResourceManager.INSTANCE.getString(MESSAGE));
-            if (request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()) != null) {
-                request.getRequestDispatcher(PagesEnum.LOGIN_PAGE.getValue()).forward(request, response);
-            }
-        } else {
-            if (request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()) != null) {
-                request.getRequestDispatcher(PagesEnum.WELCOME_PAGE.getValue()).forward(request, response);
-            }
-        }
-        return AttributeEnum.SUCCESS.getValue();
+        return page;
     }
 
     public void setShaConverter(SHAConverter shaConverter) {

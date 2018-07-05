@@ -37,8 +37,8 @@ public class XmlReadHandler implements RequestHandler {
             }
         }
         logger.info("3"+ uploadFilePath + File.separator + filename);
-        xmlParseToTableHandler.execute(request, response);
-        return AttributeEnum.SUCCESS.getValue();
+        String page = xmlParseToTableHandler.execute(request, response);
+        return page;
     }
 
     public void setXmlParseToTableHandler(XmlParseToTableHandler xmlParseToTableHandler) {
