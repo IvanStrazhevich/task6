@@ -19,9 +19,10 @@ public class XmlReadHandler implements RequestHandler {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         XmlParseToTableHandler.langDefinition(request);
-        String applicationPath = new File("").getAbsolutePath();
-        String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+        String applicationPath = request.getServletContext().getRealPath("");//new File("").getAbsolutePath();
+        String uploadFilePath = applicationPath + UPLOAD_DIR;
         String filename = null;
+        logger.info("1"+uploadFilePath + File.separator + filename);
         File fileSaveDir = new File(uploadFilePath);
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdirs();
@@ -31,11 +32,11 @@ public class XmlReadHandler implements RequestHandler {
                 if (null != part.getSubmittedFileName()) {
                     part.write(uploadFilePath + File.separator + part.getSubmittedFileName());
                     filename = part.getSubmittedFileName();
-
+                    logger.info("2"+ uploadFilePath + File.separator + filename);
                 }
             }
         }
-        logger.info(uploadFilePath + File.separator + filename);
+        logger.info("3"+ uploadFilePath + File.separator + filename);
         xmlParseToTableHandler.execute(request, response);
         return AttributeEnum.SUCCESS.getValue();
     }

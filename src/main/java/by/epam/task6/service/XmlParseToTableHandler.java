@@ -37,8 +37,8 @@ public class XmlParseToTableHandler implements RequestHandler {
         String parser = request.getParameter(AttributeEnum.PARSER.getValue());
         XMLParserFactory xmlParserFactory = new XMLParserFactory();
         XMLParserBuilder xmlParserBuilder = xmlParserFactory.createPostcardBuilder(parser);
-        logger.info(new File("").getAbsolutePath() + File.separator + UPLOAD_DIR + File.separator + filename);
-        xmlParserBuilder.buildPostcards(new File("").getAbsolutePath() + File.separator + UPLOAD_DIR + File.separator + filename);
+        logger.info("4"+ request.getServletContext().getRealPath("") + UPLOAD_DIR + File.separator + filename);//new File("").getAbsolutePath() + File.separator + UPLOAD_DIR + File.separator + filename);
+        xmlParserBuilder.buildPostcards(request.getServletContext().getRealPath("") + UPLOAD_DIR + File.separator + filename);//new File("").getAbsolutePath() + File.separator + UPLOAD_DIR + File.separator + filename);
         ArrayList<Postcard> postcards = xmlParserBuilder.findPostcards();
         request.setAttribute(AttributeEnum.PARSER.getValue(), parser);
         request.setAttribute(AttributeEnum.RESULT.getValue(), filename);
