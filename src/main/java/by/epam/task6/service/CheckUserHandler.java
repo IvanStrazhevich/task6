@@ -46,14 +46,14 @@ public class CheckUserHandler implements RequestHandler {
         try {
             ArrayList<User> list = new ArrayList();
             list = getUserslist();
-            String shalogin = shaConverter.convertToSHA1(login);
+            String shaLogin = shaConverter.convertToSHA1(login);
             String shaPassword = shaConverter.convertToSHA1(password);
             for (int i = 0; i < list.size() && !logeed; i++) {
                 User user = list.get(i);
                 if (request.getSession().getAttribute(AttributeEnum.LOGGED.getValue()) == null) {
                     String loginDB = user.getLogin();
                     String passDB = user.getPassword();
-                    if (shalogin.equals(loginDB) && shaPassword.equals(passDB)) {
+                    if (shaLogin.equals(loginDB) && shaPassword.equals(passDB)) {
                         request.getSession().setAttribute(AttributeEnum.LOGGED.getValue(), AttributeEnum.LOGGED.getValue());
                         logeed = true;
                         request.setAttribute(AttributeEnum.GREETING.getValue(), ResourceManager.INSTANCE.getString(MESSAGE_SUCCESS));
