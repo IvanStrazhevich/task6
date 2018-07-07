@@ -1,6 +1,5 @@
 package by.epam.task6.service;
 
-import by.epam.task6.web.AttributeEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +18,7 @@ public class XmlReadHandler implements RequestHandler {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         XmlParseToTableHandler.langDefinition(request);
-        String applicationPath = request.getServletContext().getRealPath("");//new File("").getAbsolutePath();
+        String applicationPath = request.getServletContext().getRealPath("");
         String uploadFilePath = applicationPath + UPLOAD_DIR;
         String filename = null;
         logger.info("1"+uploadFilePath + File.separator + filename);

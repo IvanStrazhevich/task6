@@ -11,17 +11,17 @@ public class DomBuilderTest {
     DomBuilder domBuilder;
 
     @BeforeMethod
-    public void setUp() throws Exception {
+    public void setUp() {
         domBuilder = new DomBuilder();
     }
 
     @AfterMethod
-    public void tearDown() throws Exception {
+    public void tearDown() {
         domBuilder = null;
     }
 
     @Test
-    public void testBuildSetPostcards() throws Exception {
+    public void testBuildSetPostcards() {
         try {
             domBuilder.buildPostcards("postcards/postcards.xml");
             logger.info("Result Dom: "+ domBuilder.findPostcards());

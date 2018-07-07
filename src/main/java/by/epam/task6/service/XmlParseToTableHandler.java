@@ -1,7 +1,6 @@
 package by.epam.task6.service;
 
 import by.epam.task6.entity.Postcard;
-import by.epam.task6.exception.WebXmlServletException;
 import by.epam.task6.parser.XMLParserBuilder;
 import by.epam.task6.parser.XMLParserFactory;
 import by.epam.task6.web.AttributeEnum;
@@ -37,15 +36,12 @@ public class XmlParseToTableHandler implements RequestHandler {
         String parser = request.getParameter(AttributeEnum.PARSER.getValue());
         XMLParserFactory xmlParserFactory = new XMLParserFactory();
         XMLParserBuilder xmlParserBuilder = xmlParserFactory.createPostcardBuilder(parser);
-        logger.info("4"+ request.getServletContext().getRealPath("") + UPLOAD_DIR + File.separator + filename);//new File("").getAbsolutePath() + File.separator + UPLOAD_DIR + File.separator + filename);
-        xmlParserBuilder.buildPostcards(request.getServletContext().getRealPath("") + UPLOAD_DIR + File.separator + filename);//new File("").getAbsolutePath() + File.separator + UPLOAD_DIR + File.separator + filename);
+        logger.info("4"+ request.getServletContext().getRealPath("") + UPLOAD_DIR + File.separator + filename);
+        xmlParserBuilder.buildPostcards(request.getServletContext().getRealPath("") + UPLOAD_DIR + File.separator + filename);
         ArrayList<Postcard> postcards = xmlParserBuilder.findPostcards();
         request.setAttribute(AttributeEnum.PARSER.getValue(), parser);
         request.setAttribute(AttributeEnum.RESULT.getValue(), filename);
         request.setAttribute(AttributeEnum.POSTCARDS.getValue(), postcards);
-        //if (request.getRequestDispatcher(PagesEnum.UPLOAD_RESULT_PAGE.getValue()) != null) {
-        //    request.getRequestDispatcher(PagesEnum.UPLOAD_RESULT_PAGE.getValue()).forward(request, response);
-        //}
         return PagesEnum.UPLOAD_RESULT_PAGE.getValue();
     }
 

@@ -24,8 +24,8 @@ public class SHAConverterTest {
 
     @Test
     public void testConvertToSHA1() throws Exception {
-        String login = shaConverter.convertToSHA1("vanechkas@gmail.com");
-        String password = shaConverter.convertToSHA1("DragonFly");
+        String login = shaConverter.convertToSHA1("john@gmail.com");
+        String password = shaConverter.convertToSHA1("pass");
         logger.info("login is: "+login+'\n'+ "pass is: "+password);
     }
 }
